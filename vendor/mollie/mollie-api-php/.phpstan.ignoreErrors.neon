@@ -1,0 +1,11 @@
+parameters:
+    ignoreErrors:
+        -
+            message: '/Variable \$mollie might not be defined./'
+            paths:
+                - %currentWorkingDirectory%/examples
+
+        -
+            message: "#^Call to an undefined method Mollie\\\\Api\\\\Endpoints\\\\EndpointAbstract\\:\\:getResourceCollectionObject\\(\\)\\.$#"
+            count: 1
+            path: src/Endpoints/EndpointAbstract.php
