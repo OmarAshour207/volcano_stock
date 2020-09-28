@@ -499,7 +499,8 @@ class FrontendController extends Controller
             imagesetpixel($image,rand()%200,rand()%50,$pixel);
         }
 
-        $font = 'assets/front/fonts/NotoSans-Bold.ttf';
+        $DS = DIRECTORY_SEPARATOR;
+        $font = public_path('assets'.$DS.'front'.$DS.'fonts'.$DS.'NotoSans-Bold.ttf');
 
         $allowed_letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
         $length = strlen($allowed_letters);

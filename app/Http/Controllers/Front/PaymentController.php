@@ -13,6 +13,7 @@ use App\Models\Product;
 use App\Models\User;
 use App\Models\VendorOrder;
 use App\Models\UserNotification;
+use App\Models\VendorPercentage;
 use Config;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -234,18 +235,24 @@ class PaymentController extends Controller
 
 
         $notf = null;
+        $gs = Generalsetting::findOrFail(1);
 
         foreach($cart->items as $prod)
         {
             if($prod['item']['user_id'] != 0)
             {
-                  $vorder =  new VendorOrder;
+                $discount_price = VendorPercentage::where('category_id', $prod['item']->category_id)
+                            ->where('vendor_id', $prod['item']->user_id)
+                            ->first()
+                            ->percentage ?? $gs->percentage_commission;
+
+                $vorder =  new VendorOrder;
                 $vorder->order_id = $order->id;
 
                 $vorder->user_id = $prod['item']['user_id'];
                 $notf[] = $prod['item']['user_id'];
                 $vorder->qty = $prod['qty'];
-                $vorder->price = $prod['price'] -  ($gs->fixed_commission + ($prod['item']['price']/100) * $discount_price);
+                $vorder->price = $prod['price'] -  ($gs->fixed_commission + ($prod['item']['price'] / 100) * $discount_price);
 
                 $vorder->order_number = $order->order_number;             
                 $vorder->save();
@@ -281,6 +288,7 @@ class PaymentController extends Controller
      }
 
      public function payreturn(){
+     dd();
         $this->code_image();
         if(Session::has('tempcart')){
         $oldCart = Session::get('tempcart');
@@ -292,12 +300,10 @@ class PaymentController extends Controller
             return redirect()->back();
         }
 
-         return view('front.success',compact('tempcart','order'));
+         return view('front.success', compact('tempcart','order'));
      }
 
-
-
-public function notify(Request $request){
+    public function notify(Request $request){
 
     $raw_post_data = file_get_contents('php://input');
     $raw_post_array = explode('&', $raw_post_data);
@@ -379,7 +385,6 @@ public function notify(Request $request){
     }
 
 }
-
 
     // Capcha Code Image
     private function  code_image()

@@ -18,6 +18,7 @@ use App\Models\Product;
 use App\Models\User;
 use App\Models\UserNotification;
 use App\Models\VendorOrder;
+use App\Models\VendorPercentage;
 use Auth;
 use Illuminate\Http\Request;
 use Session;
@@ -222,6 +223,10 @@ class PaystackController extends Controller
         {
             if($prod['item']['user_id'] != 0)
             {
+                $discount_price = VendorPercentage::where('category_id', $prod['item']->category_id)
+                        ->where('vendor_id', $prod['item']->user_id)
+                        ->first()
+                        ->percentage ?? $gs->percentage_commission;
                   $vorder =  new VendorOrder;
                 $vorder->order_id = $order->id;
 

@@ -1134,7 +1134,16 @@ $('.cropme').click();
   <script type="text/javascript">
   $(document).ready(function() {
 
-    let html = `<img src="{{ empty($data->photo) ? asset('assets/images/noimage.png') : filter_var($data->photo, FILTER_VALIDATE_URL) ? $data->photo :asset('assets/images/products/'.$data->photo) }}" alt="">`;
+    let html = `<img src="
+	@if (empty($data->photo))
+			{{ asset('assets/images/noimage.png') }}
+			@else
+				@if(filter_var($data->photo, FILTER_VALIDATE_URL))
+					{{ $data->photo }}
+				@else
+					{{ asset('assets/images/products/'.$data->photo) }}
+				@endif
+    @endif" alt="">`;
     $(".span4.cropme").html(html);
 
     $.ajaxSetup({
