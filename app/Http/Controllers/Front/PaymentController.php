@@ -288,7 +288,6 @@ class PaymentController extends Controller
      }
 
      public function payreturn(){
-     dd();
         $this->code_image();
         if(Session::has('tempcart')){
         $oldCart = Session::get('tempcart');
