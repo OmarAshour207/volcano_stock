@@ -54,6 +54,17 @@
     </li>
 
     <li>
+        <a href="#admincoupons" class="accordion-toggle wave-effect" data-toggle="collapse" aria-expanded="false">
+            <i class="icofont-money"></i>{{ __('Admin Coupons') }}
+        </a>
+        <ul class="collapse list-unstyled" id="admincoupons" data-parent="#accordion">
+            <li>
+                <a href="{{ route('admin-admin-coupon-index') }}"><span>{{ __('Admin Coupons') }}</span></a>
+            </li>
+        </ul>
+    </li>
+
+    <li>
         <a href="#menu3" class="accordion-toggle wave-effect" data-toggle="collapse" aria-expanded="false">
             <i class="icofont-user"></i>{{ __('Customers') }}
         </a>

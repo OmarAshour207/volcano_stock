@@ -380,8 +380,14 @@ Route::prefix('admin')->group(function() {
 
 
 
-
-
+    Route::get('/admin/coupon/datatables', 'Admin\AdminCouponController@datatables')->name('admin-admin-coupon-datatables'); //JSON REQUEST
+    Route::get('/admin/coupon', 'Admin\AdminCouponController@index')->name('admin-admin-coupon-index');
+    Route::get('/admin/coupon/create', 'Admin\AdminCouponController@create')->name('admin-admin-coupon-create');
+    Route::post('/admin/coupon/create', 'Admin\AdminCouponController@store')->name('admin-admin-coupon-store');
+    Route::get('/admin/coupon/edit/{id}', 'Admin\AdminCouponController@edit')->name('admin-admin-coupon-edit');
+    Route::post('/admin/coupon/edit/{id}', 'Admin\AdminCouponController@update')->name('admin-admin-coupon-update');
+    Route::get('/admin/coupon/delete/{id}', 'Admin\AdminCouponController@destroy')->name('admin-admin-coupon-delete');
+    Route::get('/admin/coupon/status/{id1}/{id2}', 'Admin\AdminCouponController@status')->name('admin-admin-coupon-status');
 
 
   //------------ ADMIN COUPON SECTION ------------

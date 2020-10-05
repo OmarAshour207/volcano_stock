@@ -458,8 +458,6 @@ if(admin_loader == 1)
 
 // DELIVERY OPERATION END
 
-
-
 // ADD / EDIT FORM SUBMIT FOR DATA TABLE
 
 
