@@ -110,6 +110,17 @@
                           </div>
                         </div>
 
+                        <div class="row justify-content-center">
+                            <div class="col-lg-3">
+                                <div class="left-area">
+                                    <h4 class="heading">{{ __('Total price for free Shipping in USD') }} *
+                                    </h4>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <input type="number" class="input-field" placeholder="{{ __('Total price for free Shipping in USD') }}" name="total_price_for_free_shipping" value="{{ $gs->total_price_for_free_shipping }}" required="" min="0">
+                            </div>
+                        </div>
 
                         <div class="row justify-content-center">
                             <div class="col-lg-3">

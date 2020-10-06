@@ -1058,21 +1058,30 @@ $('#shipop').on('change',function(){
 $('.shipping').on('click',function(){
 	mship = $(this).val();
 
-$('#shipping-cost').val(mship);
-var ttotal = parseFloat($('#tgrandtotal').val()) + parseFloat(mship) + parseFloat(mpack);
-ttotal = parseFloat(ttotal);
-      if(ttotal % 1 != 0)
-      {
-        ttotal = ttotal.toFixed(2);
-      }
+	@php
+		$total_price_for_free_shipping = $gs->total_price_for_free_shipping;
+	@endphp
+
+	var total_free_shipping = '{{ $total_price_for_free_shipping }}';
+
+	if (parseFloat($('#tgrandtotal').val()) < parseFloat(total_free_shipping)) {
+		$('#shipping-cost').val(mship);
+		var ttotal = parseFloat($('#tgrandtotal').val()) + parseFloat(mship) + parseFloat(mpack);
+		console.log(ttotal);
+		ttotal = parseFloat(ttotal);
+		if(ttotal % 1 != 0)
+		{
+			ttotal = ttotal.toFixed(2);
+		}
 		if(pos == 0){
 			$('#final-cost').html('{{ $curr->sign }}'+ttotal);
 		}
 		else{
 			$('#final-cost').html(ttotal+'{{ $curr->sign }}');
 		}
-	
-$('#grandtotal').val(ttotal);
+
+		$('#grandtotal').val(ttotal);
+	}
 
 })
 

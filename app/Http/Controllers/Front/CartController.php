@@ -862,6 +862,7 @@ class CartController extends Controller
     public function coupon()
     {
         $gs = Generalsetting::findOrFail(1);
+        dd($gs);
         $code = $_GET['code'];
         $total = (float)preg_replace('/[^0-9\.]/ui','',$_GET['total']);
         $coupon = '';
@@ -1000,14 +1001,19 @@ class CartController extends Controller
         $gs = Generalsetting::findOrFail(1);
         $code = $_GET['code'];
         $total = $_GET['total'];
-        $fnd = Coupon::where('code','=',$code)->get()->count();
+        $coupon = '';
+        $fnd = AdminCoupon::where('code','=',$code)->get()->count();
         if($fnd < 1)
         {
-        return response()->json(0);              
+            $vendorCoupon = Coupon::where('code','=',$code)->get()->count();
+            if ($vendorCoupon < 1) {
+                return response()->json(0);
+            }
+            $coupon = Coupon::where('code','=',$code)->first();
+        } else {
+            $coupon = AdminCoupon::where('code','=',$code)->first();
         }
-        else{
-        $coupon = Coupon::where('code','=',$code)->first();
-            if (Session::has('currency')) 
+            if (Session::has('currency'))
             {
               $curr = Currency::find(Session::get('currency'));
             }
@@ -1040,7 +1046,7 @@ class CartController extends Controller
 
                $products = (collect($cart->items)->pluck('item')->pluck('price','user_id')->filter(function ($value,$key) use($coupon) {
 
-                    return $key == $coupon->user_id;
+                    return $key == isset($coupon->user_id) ? $coupon->user_id : $coupon->admin_id;
                 }));
 
                if (count($products) <= 0) {
@@ -1131,7 +1137,7 @@ class CartController extends Controller
         else{
         return response()->json(0);             
         }
-        }         
+
     } 
 
 
