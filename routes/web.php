@@ -1347,9 +1347,7 @@ Route::get('/package/delete/{id}', 'Vendor\PackageController@destroy')->name('ve
   Route::get('/checkout/payment/cancle', 'Front\PaymentController@paycancle')->name('payment.cancle');
   Route::post('/checkout/payment/notify', 'Front\PaymentController@notify')->name('payment.notify');
   Route::get('/checkout/instamojo/notify', 'Front\InstamojoController@notify')->name('instamojo.notify');
-
-  Route::post('/checkout/pickup/price', 'Front\CheckoutController@getPickupPrice')->name('front.pickup.price');
-
+  
   Route::post('/paystack/submit', 'Front\PaystackController@store')->name('paystack.submit');
   Route::post('/instamojo/submit', 'Front\InstamojoController@store')->name('instamojo.submit');
   Route::post('/paypal-submit', 'Front\PaymentController@store')->name('paypal.submit');
