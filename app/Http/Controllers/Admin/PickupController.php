@@ -46,9 +46,11 @@ class PickupController extends Controller
         //--- Validation Section
         $rules = [
                'location' => 'unique:pickups',
+                'price' => 'required|numeric'
                 ];
         $customs = [
                'location.unique' => 'This location has already been taken.',
+                'price' => 'Price is required and must be numeric'
                    ];
         $validator = Validator::make(Input::all(), $rules, $customs);
         if ($validator->fails()) {
@@ -80,10 +82,12 @@ class PickupController extends Controller
     {
         //--- Validation Section
         $rules = [
-               'location' => 'unique:pickups,location,'.$id
+               'location' => 'unique:pickups,location,'.$id,
+                'price' => 'required|numeric'
                 ];
         $customs = [
                'location.unique' => 'This location has already been taken.',
+                'price' => 'Price is required and must be numeric'
                    ];
         $validator = Validator::make(Input::all(), $rules, $customs);
         if ($validator->fails()) {

@@ -927,6 +927,14 @@ $validator = Validator::make($input, $rules, $messages);
         return redirect($success_url);
     }
 
+    public function getPickupPrice(Request $request)
+    {
+        $pickup = Pickup::where('location', 'like', "%$request->name%")->first();
+        $data = [
+            'price' => $pickup->price
+        ];
+        return response()->json($data);
+    }
 
     // Capcha Code Image
     private function  code_image()

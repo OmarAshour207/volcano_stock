@@ -33,6 +33,7 @@
 													<thead>
 														<tr>
 									                        <th>{{ __('location') }}</th>
+									                        <th>{{ __('Price') }}</th>
 									                        <th>{{ __('Options') }}</th>
 														</tr>
 													</thead>
@@ -119,6 +120,7 @@
                ajax: '{{ route('admin-pick-datatables') }}',
                columns: [
                         { data: 'location', name: 'location' },
+                        { data: 'price', name: 'price' },
             			{ data: 'action', searchable: false, orderable: false }
 
                      ],

@@ -154,6 +154,7 @@ class PaymentController extends Controller
                     $order['currency_value'] = $curr->value;
                     $order['shipping_cost'] = $request->shipping_cost;
                     $order['packing_cost'] = $request->packing_cost;
+                    $order['pickup_cost'] = $request->pickingup_cost;
                     $order['tax'] = $request->tax;
                     $order['dp'] = $request->dp;
 

@@ -130,9 +130,10 @@
 												</div>
 		
 												<div class="col-lg-6 d-none" id="shipshow">
-													<select class="form-control nice" name="pickup_location">
+													<select class="form-control nice" name="pickup_location" id="pickup_location">
+														<option value=""> {{ __('Choose Pickup Location') }} </option>
 														@foreach($pickups as $pickup)
-														<option value="{{$pickup->location}}">{{$pickup->location}}</option>
+															<option value="{{$pickup->location}}" data-price="{{ $pickup->price }}">{{$pickup->location}}</option>
 														@endforeach
 													</select>
 												</div>
@@ -606,6 +607,7 @@
 
                             <input type="hidden" id="shipping-cost" name="shipping_cost" value="0">
                             <input type="hidden" id="packing-cost" name="packing_cost" value="0">
+                            <input type="hidden" id="pickingup-cost" name="pickingup_cost" value="0">
                             <input type="hidden" name="dp" value="{{$digital}}">
                             <input type="hidden" name="tax" value="{{$gs->tax}}">
                             <input type="hidden" name="totalQty" value="{{$totalQty}}">
@@ -1014,14 +1016,27 @@ var pos = {{ $gs->currency_format }};
 
 @endif
 
+
+$('#pickup_location').on('change', function (){
+	var pickupPrice = 0;
+	pickupPrice = $('#pickup_location option:selected').data('price');
+	var ttotal = parseFloat($('#tgrandtotal').val()) + parseFloat(mship) + parseFloat(mpack) + parseFloat(pickupPrice);
+	$('#final-cost').html(ttotal+'{{ $curr->sign }}');
+	$('#pickingup-cost').val(pickupPrice);
+});
+
+
 var mship = $('.shipping').length > 0 ? $('.shipping').first().val() : 0;
 var mpack = $('.packing').length > 0 ? $('.packing').first().val() : 0;
+var pickupPrice = $('#pickup_location option:selected').data('price') > 0 ? $('#pickup_location option:selected').data('price') : 0;
+
 mship = parseFloat(mship);
 mpack = parseFloat(mpack);
+pickupPrice = parseFloat(pickupPrice);
 
 $('#shipping-cost').val(mship);
 $('#packing-cost').val(mpack);
-var ftotal = parseFloat($('#grandtotal').val()) + mship + mpack;
+var ftotal = parseFloat($('#grandtotal').val()) + mship + mpack + pickupPrice;
 ftotal = parseFloat(ftotal);
       if(ftotal % 1 != 0)
       {
@@ -1066,8 +1081,8 @@ $('.shipping').on('click',function(){
 
 	if (parseFloat($('#tgrandtotal').val()) < parseFloat(total_free_shipping)) {
 		$('#shipping-cost').val(mship);
-		var ttotal = parseFloat($('#tgrandtotal').val()) + parseFloat(mship) + parseFloat(mpack);
-		console.log(ttotal);
+		pickupPrice = $('#pickup_location option:selected').data('price') > 0? $('#pickup_location option:selected').data('price') : 0;
+		var ttotal = parseFloat($('#tgrandtotal').val()) + parseFloat(mship) + parseFloat(mpack) + parseFloat(pickupPrice);
 		ttotal = parseFloat(ttotal);
 		if(ttotal % 1 != 0)
 		{
@@ -1088,7 +1103,9 @@ $('.shipping').on('click',function(){
 $('.packing').on('click',function(){
 	mpack = $(this).val();
 $('#packing-cost').val(mpack);
-var ttotal = parseFloat($('#tgrandtotal').val()) + parseFloat(mship) + parseFloat(mpack);
+pickupPrice = $('#pickup_location option:selected').data('price') > 0? $('#pickup_location option:selected').data('price') : 0;
+
+var ttotal = parseFloat($('#tgrandtotal').val()) + parseFloat(mship) + parseFloat(mpack) + parseFloat(pickupPrice);
 ttotal = parseFloat(ttotal);
       if(ttotal % 1 != 0)
       {
