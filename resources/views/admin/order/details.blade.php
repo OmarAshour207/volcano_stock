@@ -233,10 +233,16 @@
                                             <table class="table">
                                                 <tbody>
                             @if($order->shipping == "pickup")
-                        <tr>
+                                <tr>
                                     <th width="45%"><strong>{{ __('Pickup Location') }}:</strong></th>
                                     <th width="10%">:</th>
                                     <td width="45%">{{$order->pickup_location}}</td>
+                                </tr>
+
+                                <tr>
+                                    <th width="45%"><strong>{{ __('Pickup Cost') }}:</strong></th>
+                                    <th width="10%">:</th>
+                                    <td width="45%">{{ $order->currency_sign }}{{$order->pickup_cost}}</td>
                                 </tr>
                             @else
                                 <tr>

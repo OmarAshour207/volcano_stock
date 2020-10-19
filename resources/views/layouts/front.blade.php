@@ -314,7 +314,7 @@
 										<img src="{{ asset('assets/images/categories/'.$category->photo) }}" alt="">
 									</div>
 									<div class="link-area">
-										<span><a href="{{ route('front.category',$category->slug) }}">{{ $category->name }}</a></span>
+										<span><a href="{{ route('front.category',$category->slug) }}">{{ $category->slug }}</a></span>
 										@if(count($category->subs) > 0)
 										<a href="javascript:;">
 											<i class="fa fa-angle-right" aria-hidden="true"></i>
@@ -323,7 +323,7 @@
 									</div>
 
 								@else
-									<a href="{{ route('front.category',$category->slug) }}"><img src="{{ asset('assets/images/categories/'.$category->photo) }}"> {{ $category->name }}</a>
+									<a href="{{ route('front.category',$category->slug) }}"><img src="{{ asset('assets/images/categories/'.$category->photo) }}"> {{ $category->slug }}</a>
 
 								@endif
 									@if(count($category->subs) > 0)
@@ -340,12 +340,12 @@
 									<ul class="{{ $ck == 1 ? 'categories_mega_menu' : 'categories_mega_menu column_1' }}">
 										@foreach($category->subs as $subcat)
 											<li>
-												<a href="{{ route('front.subcat',['slug1' => $subcat->category->slug, 'slug2' => $subcat->slug]) }}">{{$subcat->name}}</a>
+												<a href="{{ route('front.subcat',['slug1' => $subcat->category->slug, 'slug2' => $subcat->slug]) }}">{{$subcat->slug}}</a>
 												@if(count($subcat->childs) > 0)
 													<div class="categorie_sub_menu">
 														<ul>
 															@foreach($subcat->childs as $childcat)
-															<li><a href="{{ route('front.childcat',['slug1' => $childcat->subcategory->category->slug, 'slug2' => $childcat->subcategory->slug, 'slug3' => $childcat->slug]) }}">{{$childcat->name}}</a></li>
+															<li><a href="{{ route('front.childcat',['slug1' => $childcat->subcategory->category->slug, 'slug2' => $childcat->subcategory->slug, 'slug3' => $childcat->slug]) }}">{{$childcat->slug}}</a></li>
 															@endforeach
 														</ul>
 													</div>
