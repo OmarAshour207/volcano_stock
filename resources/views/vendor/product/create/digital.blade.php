@@ -84,7 +84,7 @@
 															<select id="cat" name="category_id" required="">
 																	<option value="">{{ $langg->lang691 }}</option>
 						                                              @foreach($cats as $cat)
-						                                                  <option data-href="{{ route('vendor-subcat-load',$cat->id) }}" value="{{ $cat->id }}">{{$cat->name}}</option>
+						                                                  <option data-href="{{ route('vendor-subcat-load',$cat->id) }}" value="{{ $cat->id }}">{{$cat->slug}}</option>
 						                                              @endforeach
 						                                     </select>
 													</div>
@@ -137,7 +137,7 @@
 														</div>
 													</div>
 													<div class="col-lg-7">
-															<input type="file" name="file" required="">
+															<input type="file" name="file" >
 													</div>
 												</div>
 
@@ -162,7 +162,7 @@
 													  <div class="img-upload">
 														  <div id="image-preview" class="img-preview" style="background: url({{ asset('assets/vendor/images/upload.png') }});">
 															  <label for="image-upload" class="img-label" id="image-label"><i class="icofont-upload-alt"></i>{{ $langg->lang512 }}</label>
-															  <input type="file" name="photo" class="img-upload-p" id="image-upload" required>
+															  <input type="file" name="photo" class="img-upload-p" id="image-upload">
 															</div>
 															<p class="img-alert mt-2 text-danger d-none"></p>
 															<p class="text">{{ isset($langg->lang805) ? $langg->lang805 : 'Prefered Size: (800x800) or Square Size.' }}</p>
@@ -219,6 +219,52 @@
 														<input name="previous_price" step="0.1" type="number" class="input-field" placeholder="{{ $langg->lang666 }}" min="0">
 													</div>
 												</div>
+
+											  <div class="row" id="stckprod">
+												  <div class="col-lg-4">
+													  <div class="left-area">
+														  <h4 class="heading">{{ $langg->lang669 }}*</h4>
+														  <p class="sub-heading">{{ $langg->lang670 }}</p>
+													  </div>
+												  </div>
+												  <div class="col-lg-7">
+													  <input name="stock" type="text" class="input-field" placeholder="{{ $langg->lang666 }}">
+													  <div class="checkbox-wrapper">
+														  <input type="checkbox" name="measure_check" class="checkclick" id="allowProductMeasurement" value="1">
+														  <label for="allowProductMeasurement">{{ $langg->lang671 }}</label>
+													  </div>
+												  </div>
+											  </div>
+
+											  <div class="showbox">
+
+												  <div class="row">
+													  <div class="col-lg-4">
+														  <div class="left-area">
+															  <h4 class="heading">{{ $langg->lang672 }}*</h4>
+														  </div>
+													  </div>
+													  <div class="col-lg-3">
+														  <select id="product_measure">
+															  <option value="">{{ $langg->lang673 }}</option>
+															  <option value="Gram">{{ $langg->lang674 }}</option>
+															  <option value="Kilogram">{{ $langg->lang675 }}</option>
+															  <option value="Litre">{{ $langg->lang676 }}</option>
+															  <option value="Pound">{{ $langg->lang677 }}</option>
+															  <option value="Inch">Inch</option>
+															  <option value="Custom">{{ $langg->lang678 }}</option>
+														  </select>
+													  </div>
+													  <div class="col-lg-1"></div>
+													  <div class="col-lg-3 hidden" id="measure_number">
+														  <input name="measure_number" id="measure_val" type="text" class="input-field" placeholder="Inch Number">
+													  </div>
+													  <div class="col-lg-3 hidden" id="measure">
+														  <input name="measure" type="text" id="measurement" class="input-field" placeholder="{{ $langg->lang679 }}">
+													  </div>
+												  </div>
+
+											  </div>
 
 
 												<div class="row">

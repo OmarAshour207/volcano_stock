@@ -375,7 +375,7 @@ if (!Product::where('product_code',$line[0])->exists()){
 
         //--- Validation Section
         $rules = [
-               'photo'      => 'required|mimes:jpeg,jpg,png,svg',
+               'photo'      => 'mimes:jpeg,jpg,png,svg',
                'file'       => 'mimes:zip'
                 ];
 
@@ -488,6 +488,7 @@ if (!Product::where('product_code',$line[0])->exists()){
             if ($request->mesasure_check == "")
              {
                 $input['measure'] = null;
+                $input['measure_number'] = $request->measure_number != null ?? null;
              }
 
             }
@@ -504,6 +505,12 @@ if (!Product::where('product_code',$line[0])->exists()){
             $input['meta_tag'] = implode(',', $request->meta_tag);
          }
          }
+        // Check Measurement
+        if (isset($request->measure) )
+        {
+            $input['measure'] = $request->measure;
+            $input['measure_number'] = $request->measure_number > 0 ? $request->measure_number : null;
+        }
 
              // Check License
 
@@ -611,7 +618,7 @@ if (!Product::where('product_code',$line[0])->exists()){
            }
 
             // Save Data
-                $data->fill($input)->save();
+            $data->fill($input)->save();
 
             // Set SLug
 

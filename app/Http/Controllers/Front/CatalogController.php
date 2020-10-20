@@ -21,6 +21,7 @@ use Illuminate\Support\Collection;
 use Session;
 use Illuminate\Support\Facades\Input;
 use Validator;
+use function foo\func;
 
 
 class CatalogController extends Controller
@@ -53,6 +54,9 @@ class CatalogController extends Controller
       $maxprice = $request->max;
       $sort = $request->sort;
       $search = $request->search;
+      $size = $request->size;
+      $color = $request->color;
+      $inches = $request->inches;
 
       if (!empty($slug)) {
         $cat = Category::where('slug', $slug)->firstOrFail();
@@ -85,7 +89,17 @@ class CatalogController extends Controller
                                   ->when($maxprice, function($query, $maxprice) {
                                     return $query->where('price', '<=', $maxprice);
                                   })
-                                   ->when($sort, function ($query, $sort) {
+                                  ->when($size, function($query, $size) {
+                                      return $query->where('size', 'like',"%$size%");
+                                  })
+                                  ->when($color, function($query, $color) {
+                                      return $query->where('color', 'like', "%$color%");
+                                  })
+                                  ->when($inches, function ($query, $inches) {
+                                      return $query->where('measure_number', $inches)
+                                          ->orWhere('measure_number', '>', $inches);
+                                  })
+                                  ->when($sort, function ($query, $sort) {
                                       if ($sort=='date_desc') {
                                         return $query->orderBy('id', 'DESC');
                                       }

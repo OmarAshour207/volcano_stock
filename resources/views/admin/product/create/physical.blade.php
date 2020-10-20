@@ -104,7 +104,7 @@
 															<select id="cat" name="category_id" required="">
 																	<option value="">{{ __('Select Category') }}</option>
 						                                              @foreach($cats as $cat)
-						                                                  <option data-href="{{ route('admin-subcat-load',$cat->id) }}" value="{{ $cat->id }}">{{$cat->name}}</option>
+						                                                  <option data-href="{{ route('admin-subcat-load',$cat->id) }}" value="{{ $cat->id }}">{{$cat->slug}}</option>
 						                                              @endforeach
 						                                     </select>
 													</div>
@@ -307,16 +307,18 @@
 																</div>
 															</div>
 															<div  class="col-lg-7">
-																	<div class="select-input-color" id="color-section">
-																		<div class="color-area">
-																			<span class="remove color-remove"><i class="fas fa-times"></i></span>
-											                                <div class="input-group colorpicker-component cp">
-											                                  <input type="text" name="color[]" value="#000000"  class="input-field cp"/>
-											                                  <span class="input-group-addon"><i></i></span>
-											                                </div>
-											                         	</div>
-											                        </div>
-																<a href="javascript:;" id="color-btn" class="add-more mt-4 mb-3"><i class="fas fa-plus"></i>{{ __('Add More Color') }} </a>
+																<div class="select-input-color" id="color-section">
+																	@php
+																		$colors = ['Black', 'Blue', 'Green', 'Gray', 'Orange', 'Pink', 'Purple', 'Red', 'White', 'Yellow'];
+																	@endphp
+																	<div class="color-area">
+																		<select name="color[]" multiple class="select2">
+																			@for ($i = 0; $i < count($colors); $i++)
+																				<option value="{{ $colors[$i] }}"> {{ $colors[$i] }} </option>
+																			@endfor
+																		</select>
+																	</div>
+																</div>
 															</div>
 														</div>
 
@@ -542,10 +544,16 @@
 																		</div>
 
 																		<div class="col-lg-6">
-											                                <div class="input-group colorpicker-component cp">
-											                                  <input type="text" name="colors[]" value="#000000" class="input-field cp"/>
-											                                  <span class="input-group-addon"><i></i></span>
-											                                </div>
+																			@php
+																				$colors = ['Black', 'Blue', 'Green', 'Gray', 'Orange', 'Pink', 'Purple', 'Red', 'White', 'Yellow'];
+																			@endphp
+																			<div class="color-area">
+																				<select name="colors[]" multiple class="select2">
+																					@for ($i = 0; $i < count($colors); $i++)
+																						<option value="{{ $colors[$i] }}"> {{ $colors[$i] }} </option>
+																					@endfor
+																				</select>
+																			</div>
 																		</div>
 																	</div>
 																</div>

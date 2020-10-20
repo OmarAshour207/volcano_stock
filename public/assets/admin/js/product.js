@@ -20,13 +20,18 @@
         $("#product_measure").on( "change" ,function() {
             var val = $(this).val();
             $('#measurement').val(val);
-            if(val == "Custom")
-            {
-            $('#measurement').val('');
-              $('#measure').show();
+            if(val == "Custom") {
+                $('#measurement').val('');
+                $('#measure_number').hide();
+                $('#measure').show();
+            } else if (val == 'Inch') {
+                $('#measure_val').val('');
+                $('#measure').hide();
+                $('#measure_number').show();
             }
             else{
-              $('#measure').hide();      
+              $('#measure').hide();
+              $('#measure_number').hide();
             }
         });
 

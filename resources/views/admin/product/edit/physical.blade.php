@@ -590,17 +590,23 @@
 															</div>
 															<div  class="col-lg-7">
 																	<div class="select-input-color" id="color-section">
-																		@foreach($data->color as $key => $data1)
+																		@php
+																			$colors = ['Black', 'Blue', 'Green', 'Gray', 'Orange', 'Pink', 'Purple', 'Red', 'White', 'Yellow'];
+																		@endphp
 																		<div class="color-area">
-																			<span class="remove color-remove"><i class="fas fa-times"></i></span>
-											                                <div class="input-group colorpicker-component cp">
-											                                  <input type="text" name="color[]" value="{{ $data->color[$key] }}"  class="input-field cp"/>
-											                                  <span class="input-group-addon"><i></i></span>
-											                                </div>
+																			<select name="color[]" multiple class="select2">
+																				@for ($i = 0; $i < count($colors); $i++)
+																				   <option value="{{ $colors[$i] }}" {{ in_array($colors[$i], $data->color)  ? 'selected' : '' }}> {{ $colors[$i] }} </option>
+																				@endfor
+																			</select>
+
+{{--											                                <div class="input-group colorpicker-component cp">--}}
+{{--											                                  <input type="text" name="color[]" value="{{ $data->color[$key] }}"  class="input-field cp"/>--}}
+{{--											                                  <span class="input-group-addon"><i></i></span>--}}
+{{--											                                </div>--}}
 											                         	</div>
-											                         	@endforeach
 											                         </div>
-																	<a href="javascript:;" id="color-btn" class="add-more mt-4 mb-3"><i class="fas fa-plus"></i>{{ __('Add More Color') }} </a>
+{{--																	<a href="javascript:;" id="color-btn" class="add-more mt-4 mb-3"><i class="fas fa-plus"></i>{{ __('Add More Color') }} </a>--}}
 															</div>
 														@else
 															<div  class="col-lg-4">
@@ -1128,7 +1134,15 @@ $('.cropme').click();
   <script type="text/javascript">
   $(document).ready(function() {
 
-    let html = `<img src="{{ empty($data->photo) ? asset('assets/images/noimage.png') : filter_var($data->photo, FILTER_VALIDATE_URL) ? $data->photo : asset('assets/images/products/'.$data->photo) }}" alt="">`;
+    let html = `<img src="@php
+			if (empty($data->photo)) {
+    			echo asset('assets/images/noimage.png');
+			} elseif (filter_var($data->photo, FILTER_VALIDATE_URL)) {
+    			echo $data->photo;
+			} else {
+    			echo asset('assets/images/products/'.$data->photo);
+			}
+			@endphp" alt="">`;
     $(".span4.cropme").html(html);
 
     $.ajaxSetup({

@@ -126,6 +126,31 @@
       }
     }
 
+    if ($("#clothing_color").val() != '') {
+      if (filterlink == '') {
+        filterlink += '{{route('front.category', [Request::route('category'), Request::route('subcategory'), Request::route('childcategory')])}}' + '?'+$("#clothing_color").attr('name')+'='+$("#clothing_color").val();
+      } else {
+        filterlink += '&'+$("#clothing_color").attr('name')+'='+$("#clothing_color").val();
+      }
+    }
+
+    if ($("#size").val() != '') {
+        console.log($("#size").val());
+        if (filterlink == '') {
+            filterlink += '{{route('front.category', [Request::route('category'), Request::route('subcategory'), Request::route('childcategory')])}}' + '?'+$("#size").attr('name')+'='+$("#size").val();
+        } else {
+            filterlink += '&'+$("#size").attr('name')+'='+$("#size").val();
+        }
+    }
+
+    if ($("#inches").val() != '') {
+        if (filterlink == '') {
+            filterlink += '{{route('front.category', [Request::route('category'), Request::route('subcategory'), Request::route('childcategory')])}}' + '?'+$("#inches").attr('name')+'='+$("#inches").val();
+        } else {
+            filterlink += '&'+$("#inches").attr('name')+'='+$("#inches").val();
+        }
+    }
+
     // console.log(filterlink);
     console.log(encodeURI(filterlink));
     $("#ajaxContent").load(encodeURI(filterlink), function(data) {
@@ -164,6 +189,10 @@
       if ($("#max_price").val() != '') {
         fullUrl += '&max='+encodeURI($("#max_price").val());
       }
+
+        if ($("#size").val() != '') {
+            fullUrl += '&size='+encodeURI($("#size").val());
+        }
 
       $(this).attr('href', fullUrl);
     });

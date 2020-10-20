@@ -551,17 +551,21 @@
 
 															<div class="feature-tag-top-filds" id="feature-section">
 																<div class="feature-area">
-																	<span class="remove feature-remove"><i class="fas fa-times"></i></span>
 																	<div class="row">
 																		<div class="col-lg-6">
-																		<input type="text" name="features[]" class="input-field" placeholder="{{ $langg->lang687 }}">
+																			<input type="text" name="features[]" class="input-field" placeholder="{{ $langg->lang687 }}">
 																		</div>
-
 																		<div class="col-lg-6">
-											                                <div class="input-group colorpicker-component cp">
-											                                  <input type="text" name="colors[]" value="#000000" class="input-field cp"/>
-											                                  <span class="input-group-addon"><i></i></span>
-											                                </div>
+																			@php
+																				$colors = ['Black', 'Blue', 'Green', 'Gray', 'Orange', 'Pink', 'Purple', 'Red', 'White', 'Yellow'];
+																			@endphp
+																			<div class="color-area">
+																				<select name="color[]" multiple class="select2">
+																					@for ($i = 0; $i < count($colors); $i++)
+																						<option value="{{ $colors[$i] }}"> {{ $colors[$i] }} </option>
+																					@endfor
+																				</select>
+																			</div>
 																		</div>
 																	</div>
 																</div>

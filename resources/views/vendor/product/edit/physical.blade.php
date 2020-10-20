@@ -881,8 +881,6 @@
 															<div class="feature-tag-top-filds" id="feature-section">
 																@if(!empty($data->features))
 
-																	 @foreach($data->features as $key => $data1)
-
 																<div class="feature-area">
 																	<span class="remove feature-remove"><i class="fas fa-times"></i></span>
 																	<div class="row">
@@ -891,16 +889,20 @@
 																		</div>
 
 																		<div class="col-lg-6">
-											                                <div class="input-group colorpicker-component cp">
-											                                  <input type="text" name="colors[]" value="{{ $data->colors[$key] }}" class="input-field cp"/>
-											                                  <span class="input-group-addon"><i></i></span>
-											                                </div>
+																			@php
+																				$colors = ['Black', 'Blue', 'Green', 'Gray', 'Orange', 'Pink', 'Purple', 'Red', 'White', 'Yellow'];
+																			@endphp
+																			<div class="color-area">
+																				<select name="color[]" multiple class="select2">
+																					@for ($i = 0; $i < count($colors); $i++)
+																						<option value="{{ $colors[$i] }}" {{ in_array($colors[$i], $data->colors) ? 'selected' : '' }}> {{ $colors[$i] }} </option>
+																					@endfor
+																				</select>
+																			</div>
 																		</div>
 																	</div>
 																</div>
 
-
-																		@endforeach
 																@else
 
 																<div class="feature-area">
@@ -911,10 +913,16 @@
 																		</div>
 
 																		<div class="col-lg-6">
-											                                <div class="input-group colorpicker-component cp">
-											                                  <input type="text" name="colors[]" value="#000000" class="input-field cp"/>
-											                                  <span class="input-group-addon"><i></i></span>
-											                                </div>
+																			@php
+																				$colors = ['Black', 'Blue', 'Green', 'Gray', 'Orange', 'Pink', 'Purple', 'Red', 'White', 'Yellow'];
+																			@endphp
+																			<div class="color-area">
+																				<select name="color[]" multiple class="select2">
+																					@for ($i = 0; $i < count($colors); $i++)
+																						<option value="{{ $colors[$i] }}" {{ $data->colors ? in_array($colors[$i], $data->colors) ? 'selected' : '' : '' }}> {{ $colors[$i] }} </option>
+																					@endfor
+																				</select>
+																			</div>
 																		</div>
 																	</div>
 																</div>

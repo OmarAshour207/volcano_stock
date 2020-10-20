@@ -50,7 +50,36 @@
                       <span>{{$langg->lang62}}</span>
                       <input type="number" min=0  name="max" id="max_price" class="price-range-field" />
                     </div>
-                  </div>
+                </div>
+                    <hr>
+                    <div class="form-group">
+                        <select class="form-control" name="size" id="size">
+                            <option value=""> All Sizes </option>
+                            <option value="XS"> XS </option>
+                            <option value="S"> S </option>
+                            <option value="M"> M </option>
+                            <option value="L"> L </option>
+                            <option value="XL"> XL </option>
+                            <option value="other"> Other </option>
+                        </select>
+                    </div>
+
+                    <hr>
+                    <div class="form-group">
+                        <select class="form-control" name="color" id="clothing_color">
+                            <option value="" selected> All Colors </option>
+                            <option value="Black"> Black </option>
+                            <option value="Blue"> Blue </option>
+                            <option value="Green"> Green </option>
+                            <option value="Gray"> Gray </option>
+                            <option value="Orange"> Orange </option>
+                            <option value="Pink"> Pink </option>
+                            <option value="Purple"> Purple </option>
+                            <option value="Red"> Red </option>
+                            <option value="White"> White </option>
+                            <option value="Yellow"> Yellow </option>
+                        </select>
+                    </div>
 
                   <button class="filter-btn" type="submit">{{$langg->lang58}}</button>
               </form>
@@ -101,6 +130,21 @@
                             @endif
                           @endforeach
                         @endif
+
+                            @if (!empty($subcat) && !empty(json_decode($subcat->attributes, true)))
+                                <div class="my-2 sub-title">
+                                    <span><i class="fas fa-arrow-alt-circle-right"></i> Sizes </span>
+                                </div>
+                                @php
+                                    $sizes = [32, 40, 43, 50, 55, 65];
+                                @endphp
+                                @for($i = 0; $i < count($sizes);$i++)
+                                    <div class="form-check  ml-0 pl-0">
+                                        <input name="inches" class="form-check-input attribute-input" type="checkbox" id="inches" value="{{ $sizes[$i] }}">
+                                        <label class="form-check-label" for="inches">{{ $sizes[$i] }}</label>
+                                    </div>
+                                @endfor
+                            @endif
 
                         @if (!empty($childcat) && !empty(json_decode($childcat->attributes, true)))
                           @foreach ($childcat->attributes as $key => $attr)
