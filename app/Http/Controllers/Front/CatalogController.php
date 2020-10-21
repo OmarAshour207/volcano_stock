@@ -14,6 +14,7 @@ use App\Models\Rating;
 use App\Models\Reply;
 use App\Models\Report;
 use App\Models\Subcategory;
+use App\Models\User;
 use Auth;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -260,7 +261,8 @@ class CatalogController extends Controller
         {
             $vendors = Product::where('status','=',1)->where('user_id','=',0)->take(8)->get();
         }
-        return view('front.product',compact('productt','curr','vendors'));
+        $vendor_rate = $this->getVendorReviews($productt->id);
+        return view('front.product',compact('productt','curr','vendors', 'vendor_rate'));
 
     }
 
@@ -279,7 +281,8 @@ class CatalogController extends Controller
             imagesetpixel($image,rand()%200,rand()%50,$pixel);
         }
 
-       $font = 'assets/front/fonts/NotoSans-Bold.ttf';
+        $DS = DIRECTORY_SEPARATOR;
+        $font = public_path('assets'.$DS.'front'.$DS.'fonts'.$DS.'NotoSans-Bold.ttf');
         $allowed_letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
         $length = strlen($allowed_letters);
         $letter = $allowed_letters[rand(0, $length-1)];
@@ -434,6 +437,9 @@ class CatalogController extends Controller
                 {
                 return response()->json(array('errors' => [ 0 => 'You Have Reviewed Already.' ]));
                 }
+                // this check vendor rate and change status if rate < 1
+                $this->checkRate($request->product_id);
+
                 $Rating = new Rating;
                 $Rating->fill($request->all());
                 $Rating['review_date'] = date('Y-m-d H:i:s');
@@ -452,6 +458,45 @@ class CatalogController extends Controller
             $productt = Product::find($id);
             return view('load.reviews',compact('productt','id'));
 
+        }
+
+        public function getVendorReviews($id)
+        {
+            $rates = [];
+            $count = 1;
+            $product = Product::findOrFail($id);
+            $vendor_products = Product::with('ratings')
+                    ->where('user_id', $product->user_id)
+                    ->orderBy('id', 'desc')
+                    ->get();
+            foreach ($vendor_products as $vendor_product) {
+                if (count($vendor_product->ratings) > 0) {
+                    $count++;
+                    $productRate = 0;
+                    foreach ($vendor_product->ratings as $rate) {
+                        $productRate += $rate->rating;
+                    }
+                    array_push($rates, ceil($productRate/ count($vendor_product->ratings)));
+                }
+            }
+            $vendor_rate = ceil(array_sum($rates)/$count);
+            return $vendor_rate;
+        }
+
+        public function checkRate($id)
+        {
+            $rate = $this->getVendorReviews($id);
+            if ($rate == 1) {
+                $product = Product::findOrFail($id);
+                $this->changeStatus($product->user_id);
+            }
+        }
+
+        public function changeStatus($id)
+        {
+            $user = User::findOrFail($id);
+            $user->is_vendor = 1;
+            $user->update();
         }
 
     // ------------------ Rating SECTION ENDS --------------------

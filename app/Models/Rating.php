@@ -17,6 +17,7 @@ class Rating extends Model
 			}
 		});
     }
+
     public function user()
     {
         return $this->belongsTo('App\Models\User')->withDefault(function ($data) {
@@ -25,11 +26,13 @@ class Rating extends Model
 			}
 		});
     }
+
     public static function ratings($productid){
         $stars = Rating::where('product_id',$productid)->avg('rating');
         $ratings = number_format((float)$stars, 1, '.', '')*20;
         return $ratings;
     }
+
     public static function rating($productid){
         $stars = Rating::where('product_id',$productid)->avg('rating');
         $stars = number_format((float)$stars, 1, '.', '');

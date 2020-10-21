@@ -578,6 +578,17 @@
                 
                 </a>
                 @endif
+                  @php
+                    $message = ['very bad', 'bad', 'good', 'very Good', 'best'];
+                  @endphp
+                @for($i = 0;$i < count($message); $i++)
+                  @if($vendor_rate == ($i+1))
+                    <br>
+                    <a href="javascript:;">
+                      {{ $message[$i] }} Seller
+                    </a>
+                  @endif
+                @endfor
 
               @else
                 {{ $langg->lang247 }}
