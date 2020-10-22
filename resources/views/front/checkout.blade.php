@@ -1023,6 +1023,7 @@ $('#pickup_location').on('change', function (){
 	var ttotal = parseFloat($('#tgrandtotal').val()) + parseFloat(mship) + parseFloat(mpack) + parseFloat(pickupPrice);
 	$('#final-cost').html(ttotal+'{{ $curr->sign }}');
 	$('#pickingup-cost').val(pickupPrice);
+	$('#grandtotal').val(ttotal);
 });
 
 
@@ -1037,6 +1038,9 @@ pickupPrice = parseFloat(pickupPrice);
 $('#shipping-cost').val(mship);
 $('#packing-cost').val(mpack);
 var ftotal = parseFloat($('#grandtotal').val()) + mship + mpack + pickupPrice;
+
+console.log(pickupPrice);
+
 ftotal = parseFloat(ftotal);
       if(ftotal % 1 != 0)
       {
@@ -1119,7 +1123,7 @@ ttotal = parseFloat(ttotal);
 			$('#final-cost').html(ttotal+'{{ $curr->sign }}');
 		}	
 
-
+console.log("from 2" + pickupPrice);
 $('#grandtotal').val(ttotal);
 		
 })
