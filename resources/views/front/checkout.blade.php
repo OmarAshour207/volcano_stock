@@ -1067,8 +1067,8 @@ $('#shipop').on('change',function(){
 	else{
 		$('#shipshow').addClass('d-none');
 		$("#ship-diff-address").parent().removeClass('d-none');
-        $('.ship-diff-addres-area').removeClass('d-none');  
-        $('.ship-diff-addres-area input, .ship-diff-addres-area select').prop('required',true); 
+        // $('.ship-diff-addres-area').removeClass('d-none');
+        $('.ship-diff-addres-area input, .ship-diff-addres-area select').prop('required',true);
 	}
 
 });

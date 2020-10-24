@@ -119,7 +119,7 @@
 													<div class="col-lg-8">
 														@foreach($categories as $category)
 
-														<label>{{$category->name}}</label>
+														<label>{{$category->slug}}</label>
 														<input type="text" class="input-field" name="category[{{$category->id}}]" placeholder="{{ __("Message") }}" value="{{ \App\Models\VendorPercentage::where('vendor_id',$data->id)
 														->where('category_id',$category->id)->first()->percentage ?? ''
 														}} ">
