@@ -65,6 +65,7 @@
                             <p><strong>{{ __('Shipping Address') }}</strong></p>
                            <span><strong>{{ __('Customer Name') }}</strong>: {{ $order->shipping_name == null ? $order->customer_name : $order->shipping_name}}</span><br>
                            <span><strong>{{ __('Address') }}</strong>: {{ $order->shipping_address == null ? $order->customer_address : $order->shipping_address }}</span><br>
+                           <span><strong>{{ __('Region') }}</strong>: {{ $order->shipping_region == null ? $order->customer_address : $order->shipping_region }}</span><br>
                            <span><strong>{{ __('City') }}</strong>: {{ $order->shipping_city == null ? $order->customer_city : $order->shipping_city }}</span><br>
                            <span><strong>{{ __('Country') }}</strong>: {{ $order->shipping_country == null ? $order->customer_country : $order->shipping_country }}</span>
 
@@ -138,6 +139,9 @@
                                                 @endif
                                                 <p>
                                                         <strong>{{ __('Price') }} :</strong> {{$order->currency_sign}}{{ round($product['item']['price'] * $order->currency_value , 2) }}
+                                                </p>
+                                                <p>
+                                                    <strong>{{ __('Shipping Cost') }} :</strong> {{$order->currency_sign}}{{ round( $order->shipping_cost , 2) }}
                                                 </p>
                                                <p>
                                                     <strong>{{ __('Qty') }} :</strong> {{$product['qty']}} {{ $product['item']['measure'] }}

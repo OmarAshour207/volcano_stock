@@ -276,6 +276,11 @@
                 <td width="45%">{{$order->shipping_city == null ? $order->customer_city : $order->shipping_city}}</td>
                                 </tr>
                                 <tr>
+                                    <th width="45%"><strong>{{ __('Region') }}:</strong></th>
+                                    <th width="10%">:</th>
+                                    <td width="45%">{{$order->shipping_region == null ? $order->customer_city : $order->shipping_region}}</td>
+                                </tr>
+                                <tr>
                                     <th width="45%"><strong>{{ __('Postal Code') }}:</strong></th>
                                     <th width="10%">:</th>
                 <td width="45%">{{$order->shipping_zip == null ? $order->customer_zip : $order->shipping_zip}}</td>
@@ -397,6 +402,9 @@
                                                 <p>
                                                         <strong>{{ __('Price') }} :</strong> {{$order->currency_sign}}{{ round($product['item']['price'] * $order->currency_value , 2) }}
                                                 </p>
+                                                <p>
+                                                    <strong>{{ __('Shipping Cost') }} :</strong> {{$order->currency_sign}}{{ round($order->shipping_cost , 2) }}
+                                                </p>
                                                <p>
                                                     <strong>{{ __('Qty') }} :</strong> {{$product['qty']}} {{ $product['item']['measure'] }}
                                                </p>
@@ -417,7 +425,7 @@
 
                                             </td>
 
-                                            <td>{{$order->currency_sign}}{{ round($product['price'] * $order->currency_value , 2) }}</td>
+                                            <td>{{$order->currency_sign}}{{ round($product['price'] * $order->currency_value , 2) + $order->shipping_cost }}</td>
 
                                     </tr>
                                 @endforeach

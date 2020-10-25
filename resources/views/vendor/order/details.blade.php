@@ -374,6 +374,9 @@ $price = number_format($order->vendororders()->where('user_id','=',$user->id)->s
                                                 <p>
                                                         <strong>{{ $langg->lang754 }} :</strong> {{$order->currency_sign}}{{ round($product['item']['price'] * $order->currency_value , 2) }}
                                                 </p>
+                                                <p>
+                                                    <strong>{{ __('Shipping Cost') }} :</strong> {{$order->currency_sign}}{{ round($order->shipping_cost , 2) }}
+                                                </p>
                                                <p>
                                                     <strong>{{ $langg->lang311 }} :</strong> {{$product['qty']}} {{ $product['item']['measure'] }}
                                                </p>
@@ -391,7 +394,7 @@ $price = number_format($order->vendororders()->where('user_id','=',$user->id)->s
 
                                             </td>
 
-                                            <td>{{$order->currency_sign}}{{ round($product['price'] * $order->currency_value , 2) }}</td>
+                                            <td>{{$order->currency_sign}}{{ round($product['price'] * $order->currency_value , 2) + $order->shipping_cost }}</td>
 
                                     </tr>
 

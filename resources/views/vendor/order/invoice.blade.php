@@ -64,6 +64,7 @@
                             <p><strong>{{ $langg->lang606 }}</strong></p>
                            <span><strong>{{ $langg->lang557 }}</strong>: {{ $order->shipping_name == null ? $order->customer_name : $order->shipping_name}}</span><br>
                            <span><strong>{{ $langg->lang560 }}</strong>: {{ $order->shipping_address == null ? $order->customer_address : $order->shipping_address }}</span><br>
+                           <span><strong>{{ __('Region') }}</strong>: {{ $order->shipping_region == null ? $order->customer_address : $order->shipping_region }}</span><br>
                            <span><strong>{{ $langg->lang562 }}</strong>: {{ $order->shipping_city == null ? $order->customer_city : $order->shipping_city }}</span><br>
                            <span><strong>{{ $langg->lang561 }}</strong>: {{ $order->shipping_country == null ? $order->customer_country : $order->shipping_country }}</span>
 
@@ -143,6 +144,9 @@
                                                 <p>
                                                         <strong>{{ $langg->lang754 }} :</strong> {{$order->currency_sign}}{{ round($product['item']['price'] * $order->currency_value , 2) }}
                                                 </p>
+                                                <p>
+                                                    <strong>{{ __('Shipping Cost') }} :</strong> {{$order->currency_sign}}{{ round($order->shipping_cost, 2) }}
+                                                </p>
                                                <p>
                                                     <strong>{{ $langg->lang595 }} :</strong> {{$product['qty']}} {{ $product['item']['measure'] }}
                                                </p>
@@ -214,6 +218,15 @@
                                             @endphp
                                             <td>{{round($tax, 2)}}</td>
                                         </tr>
+                                        @endif
+                                        @if($order->shipping_cost != 0)
+                                            <tr>
+                                                <td colspan="2">{{ __('Shipping Cost') }}</td>
+                                                @php
+                                                    $subtotal =  $subtotal + $order->shipping_cost;
+                                                @endphp
+                                                <td> {{round($order->shipping_cost, 2)}} {{$order->currency_sign}}</td>
+                                            </tr>
                                         @endif
 
                                         <tr>
