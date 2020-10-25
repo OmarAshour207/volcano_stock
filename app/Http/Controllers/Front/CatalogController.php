@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\Childcategory;
 use App\Models\Comment;
 use App\Models\Currency;
+use App\Models\Language;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\ProductClick;
@@ -262,8 +263,8 @@ class CatalogController extends Controller
             $vendors = Product::where('status','=',1)->where('user_id','=',0)->take(8)->get();
         }
         $vendor_rate = $this->getVendorReviews($productt->id);
-        return view('front.product',compact('productt','curr','vendors', 'vendor_rate'));
 
+        return view('front.product',compact('productt','curr','vendors', 'vendor_rate'));
     }
 
 

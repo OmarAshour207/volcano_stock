@@ -9,10 +9,10 @@
         <ul class="pages">
 
           <li><a href="{{route('front.index')}}">{{ $langg->lang17 }}</a></li>
-          <li><a href="{{route('front.category',$productt->category->slug)}}">{{$productt->category->name}}</a></li>
+          <li><a href="{{route('front.category',$productt->category->slug)}}">{{$productt->category->name }}</a></li>
           @if(!empty($productt->subcategory))
           <li><a
-              href="{{ route('front.subcat',['slug1' => $productt->category->slug, 'slug2' => $productt->subcategory->slug]) }}">{{$productt->subcategory->name}}</a>
+              href="{{ route('front.subcat',['slug1' => $productt->category->slug, 'slug2' => $productt->subcategory->slug]) }}">{{ $productt->subcategory->name }}</a>
           </li>
           @endif
           @if(!empty($productt->childcategory))
@@ -581,14 +581,16 @@
                   @php
                     $message = ['very bad', 'bad', 'good', 'very Good', 'best'];
                   @endphp
-                @for($i = 0;$i < count($message); $i++)
-                  @if($vendor_rate == ($i+1))
-                    <br>
-                    <a href="javascript:;">
-                      {{ $message[$i] }} Seller
-                    </a>
-                  @endif
-                @endfor
+                @if ($vendor_rate > 2)
+                  @for($i = 0;$i < count($message); $i++)
+                    @if($vendor_rate == ($i+1))
+                      <br>
+                      <a href="javascript:;">
+                        {{ $message[$i] }} Seller
+                      </a>
+                    @endif
+                  @endfor
+                @endif
 
               @else
                 {{ $langg->lang247 }}
