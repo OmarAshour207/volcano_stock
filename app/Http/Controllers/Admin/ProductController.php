@@ -322,7 +322,12 @@ class ProductController extends Controller
         {
 
             //--- Validation Section
-            $rules = ['sku'      => 'min:8|unique:products'];
+            $rules = [
+                'sku'       => 'min:8|unique:products',
+                'length'    => 'required|numeric|min:1',
+                'width'     => 'required|numeric|min:1',
+                'height'    => 'required|numeric|min:1',
+            ];
 
             $validator = Validator::make(Input::all(), $rules);
 
@@ -413,6 +418,7 @@ class ProductController extends Controller
                 $input['meta_tag'] = implode(',', $request->meta_tag);
             }
         }
+
 
         // Check License
 
@@ -522,6 +528,11 @@ class ProductController extends Controller
           $input['attributes'] = $jsonAttr;
         }
 
+        // Length, Width, Height
+        $input['length'] = $request->length ??'';
+        $input['width'] = $request->width ?? '';
+        $input['height'] = $request->height ?? '';
+        $input['weight'] = $request->weight ?? '';
 
 
         // Save Data
@@ -937,6 +948,12 @@ if (!Product::where('sku',$line[0])->exists()){
 
          $input['price'] = $input['price'] / $sign->value;
          $input['previous_price'] = $input['previous_price'] / $sign->value;
+
+        // Length, Width, Height
+        $input['length'] = $request->length;
+        $input['width'] = $request->width;
+        $input['height'] = $request->height;
+        $input['weight'] = $request->weight;
 
          // store filtering attributes for physical product
          $attrArr = [];

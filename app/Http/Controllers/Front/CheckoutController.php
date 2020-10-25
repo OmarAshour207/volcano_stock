@@ -15,6 +15,7 @@ use App\Models\Pagesetting;
 use App\Models\PaymentGateway;
 use App\Models\Pickup;
 use App\Models\Product;
+use App\Models\Region;
 use App\Models\User;
 use App\Models\UserNotification;
 use App\Models\VendorOrder;
@@ -46,6 +47,7 @@ class CheckoutController extends Controller
 
     public function checkout()
     {
+
         $this->code_image();
         if (!Session::has('cart')) {
             return redirect()->route('front.cart')->with('success',"You don't have any product to checkout.");
@@ -63,7 +65,7 @@ class CheckoutController extends Controller
                 $curr = Currency::where('is_default','=',1)->first();
             }
 
-// If a user is Authenticated then there is no problm user can go for checkout
+// If a user is Authenticated then there is no problem user can go for checkout
 
         if(Auth::guard('web')->check())
         {
@@ -934,6 +936,27 @@ $validator = Validator::make($input, $rules, $messages);
             'price' => $pickup->price
         ];
         return response()->json($data);
+    }
+
+    public function cities(Request $request)
+    {
+        $regions = Region::where('parent_id', $request->city_id)->get();
+        $products = Session::get('cart');
+        $kilos = 0;
+        $kilo = 0;
+        $calculated_kilos = 0;
+
+        foreach ($products as $index => $product) {
+            foreach ($product as $p) {
+                $calculated_kilos = ($p['item']->length * $p['item']->width * $p['item']->height)/3000;
+                $kilo = $calculated_kilos > $p['item']->weight ? $calculated_kilos : $p['item']->weight ;
+                $kilos += $kilo;
+            }
+            break;
+        }
+
+
+        return view('includes.regions', compact('regions', 'kilos'));
     }
 
     // Capcha Code Image

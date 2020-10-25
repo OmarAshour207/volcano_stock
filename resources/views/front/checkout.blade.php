@@ -159,14 +159,13 @@
 														value="{{ Auth::guard('web')->check() ? Auth::guard('web')->user()->address : '' }}">
 												</div>
 												<div class="col-lg-6">
-													<select class="form-control" name="customer_country" required="">
-														@include('includes.countries')
+													<select class="form-control" name="shipping_city" id="cities">
+														@include('includes.cities')
 													</select>
 												</div>
 												<div class="col-lg-6">
-													<input class="form-control" type="text" name="city"
-														placeholder="{{ $langg->lang158 }}" required=""
-														value="{{ Auth::guard('web')->check() ? Auth::guard('web')->user()->city : '' }}">
+													<select class="form-control" name="shipping_region" id="regions">
+													</select>
 												</div>
 												<div class="col-lg-6">
 													<input class="form-control" type="text" name="zip"
@@ -203,15 +202,17 @@
 												</div>
 
 												<div class="col-lg-6">
-													<select class="form-control ship_input" name="shipping_country">
-														@include('includes.countries')
+													<select class="form-control" name="shipping_city" id="cities">
+														@include('includes.cities')
 													</select>
 												</div>
+												<input type="hidden" name="shipping_city" id="shipping_city">
 											</div>
+											<input type="hidden" name="shipping_country" value="Egypt">
 											<div class="row">
 												<div class="col-lg-6">
-													<input class="form-control ship_input" type="text" name="shipping_city"
-														id="shipping_city" placeholder="{{ $langg->lang158 }}">
+													<select class="form-control" name="shipping_region" id="regions">
+													</select>
 												</div>
 												<div class="col-lg-6">
 													<input class="form-control ship_input" type="text" name="shipping_zip"
@@ -1016,17 +1017,6 @@ var pos = {{ $gs->currency_format }};
 
 @endif
 
-
-$('#pickup_location').on('change', function (){
-	var pickupPrice = 0;
-	pickupPrice = $('#pickup_location option:selected').data('price');
-	var ttotal = parseFloat($('#tgrandtotal').val()) + parseFloat(mship) + parseFloat(mpack) + parseFloat(pickupPrice);
-	$('#final-cost').html(ttotal+'{{ $curr->sign }}');
-	$('#pickingup-cost').val(pickupPrice);
-	$('#grandtotal').val(ttotal);
-});
-
-
 var mship = $('.shipping').length > 0 ? $('.shipping').first().val() : 0;
 var mpack = $('.packing').length > 0 ? $('.packing').first().val() : 0;
 var pickupPrice = $('#pickup_location option:selected').data('price') > 0 ? $('#pickup_location option:selected').data('price') : 0;
@@ -1039,21 +1029,59 @@ $('#shipping-cost').val(mship);
 $('#packing-cost').val(mpack);
 var ftotal = parseFloat($('#grandtotal').val()) + mship + mpack + pickupPrice;
 
-console.log(pickupPrice);
 
 ftotal = parseFloat(ftotal);
-      if(ftotal % 1 != 0)
-      {
-        ftotal = ftotal.toFixed(2);
-      }
-		if(pos == 0){
-			$('#final-cost').html('{{ $curr->sign }}'+ftotal)
-		}
-		else{
-			$('#final-cost').html(ftotal+'{{ $curr->sign }}')
-		}
+if(ftotal % 1 != 0)
+{
+	ftotal = ftotal.toFixed(2);
+}
+if(pos == 0){
+	$('#final-cost').html('{{ $curr->sign }}'+ftotal)
+}
+else{
+	$('#final-cost').html(ftotal+'{{ $curr->sign }}')
+}
 
 $('#grandtotal').val(ftotal);
+
+
+$('#cities').on('change', function (){
+	var city_name = $('#cities option:selected').val();
+	$('#shipping_city').val(city_name);
+	var city_id = $('#cities option:selected').data('id');
+	$.ajax({
+		url: '{{ route('front.cities') }}',
+		method: "post",
+		data_type: 'html',
+		data: {
+			_token: '{{ csrf_token() }}',
+			city_id: city_id
+		}, success: function (data) {
+			$('#regions').html(data);
+		}, beforeSend: function () {
+			$('#regions').html('');
+		}
+	});
+});
+
+$('#regions').on('change', function (){
+	var shipping_price = parseFloat($('#regions option:selected').data('price'));
+	shipping_price = shipping_price > 0 ? shipping_price : 0;
+	var ttotal = parseFloat($('#tgrandtotal').val()) + parseFloat(mship) + parseFloat(mpack) + parseFloat(shipping_price);
+	$('#final-cost').html(ttotal+'{{ $curr->sign }}');
+	$('#grandtotal').val(ttotal);
+	$('#shipping-cost').val(shipping_price);
+});
+
+$('#pickup_location').on('change', function (){
+	var pickupPrice = 0;
+	pickupPrice = $('#pickup_location option:selected').data('price');
+	var ttotal = parseFloat($('#tgrandtotal').val()) + parseFloat(mship) + parseFloat(mpack) + parseFloat(pickupPrice);
+	$('#final-cost').html(ttotal+'{{ $curr->sign }}');
+	$('#pickingup-cost').val(pickupPrice);
+	$('#grandtotal').val(ttotal);
+});
+
 
 $('#shipop').on('change',function(){
 
@@ -1086,7 +1114,9 @@ $('.shipping').on('click',function(){
 	if (parseFloat($('#tgrandtotal').val()) < parseFloat(total_free_shipping)) {
 		$('#shipping-cost').val(mship);
 		pickupPrice = $('#pickup_location option:selected').data('price') > 0? $('#pickup_location option:selected').data('price') : 0;
-		var ttotal = parseFloat($('#tgrandtotal').val()) + parseFloat(mship) + parseFloat(mpack) + parseFloat(pickupPrice);
+		var shipping_price = parseFloat($('#regions option:selected').data('price'));
+		shipping_price = shipping_price > 0 ? shipping_price : 0;
+		var ttotal = parseFloat($('#tgrandtotal').val()) + parseFloat(mship) + parseFloat(mpack) + parseFloat(pickupPrice) + parseFloat(shipping_price);
 		ttotal = parseFloat(ttotal);
 		if(ttotal % 1 != 0)
 		{
@@ -1108,8 +1138,9 @@ $('.packing').on('click',function(){
 	mpack = $(this).val();
 $('#packing-cost').val(mpack);
 pickupPrice = $('#pickup_location option:selected').data('price') > 0? $('#pickup_location option:selected').data('price') : 0;
-
-var ttotal = parseFloat($('#tgrandtotal').val()) + parseFloat(mship) + parseFloat(mpack) + parseFloat(pickupPrice);
+var shipping_price = parseFloat($('#regions option:selected').data('price'));
+shipping_price = shipping_price > 0 ? shipping_price : 0;
+var ttotal = parseFloat($('#tgrandtotal').val()) + parseFloat(mship) + parseFloat(mpack) + parseFloat(pickupPrice) + parseFloat(shipping_price);
 ttotal = parseFloat(ttotal);
       if(ttotal % 1 != 0)
       {
@@ -1123,7 +1154,6 @@ ttotal = parseFloat(ttotal);
 			$('#final-cost').html(ttotal+'{{ $curr->sign }}');
 		}	
 
-console.log("from 2" + pickupPrice);
 $('#grandtotal').val(ttotal);
 		
 })

@@ -392,6 +392,27 @@ Route::prefix('admin')->group(function() {
 
   //------------ ADMIN COUPON SECTION ------------
 
+
+    // Cities and Regions
+    Route::get('/admin/city/datatables', 'Admin\CityController@datatables')->name('admin-city-datatables'); //JSON REQUEST
+    Route::get('/admin/city', 'Admin\CityController@index')->name('admin-city-index');
+    Route::get('/admin/city/create', 'Admin\CityController@create')->name('admin-city-create');
+    Route::post('/admin/city/create', 'Admin\CityController@store')->name('admin-city-store');
+    Route::get('/admin/city/edit/{id}', 'Admin\CityController@edit')->name('admin-city-edit');
+    Route::post('/admin/city/edit/{id}', 'Admin\CityController@update')->name('admin-city-update');
+    Route::get('/admin/city/delete/{id}', 'Admin\CityController@destroy')->name('admin-city-delete');
+    // End
+
+    // Cities and Regions
+    Route::get('/admin/regions/datatables', 'Admin\RegionController@datatables')->name('admin-regions-datatables'); //JSON REQUEST
+    Route::get('/admin/regions', 'Admin\RegionController@index')->name('admin-regions-index');
+    Route::get('/admin/regions/create', 'Admin\RegionController@create')->name('admin-regions-create');
+    Route::post('/admin/regions/create', 'Admin\RegionController@store')->name('admin-regions-store');
+    Route::get('/admin/regions/edit/{id}', 'Admin\RegionController@edit')->name('admin-regions-edit');
+    Route::post('/admin/regions/edit/{id}', 'Admin\RegionController@update')->name('admin-regions-update');
+    Route::get('/admin/regions/delete/{id}', 'Admin\RegionController@destroy')->name('admin-regions-delete');
+    // End
+
   Route::group(['middleware'=>'permissions:set_coupons'],function(){
 
   Route::get('/coupon/datatables', 'Admin\CouponController@datatables')->name('admin-coupon-datatables'); //JSON REQUEST
@@ -1341,6 +1362,7 @@ Route::get('/package/delete/{id}', 'Vendor\PackageController@destroy')->name('ve
 
   // CHECKOUT SECTION
   Route::get('/checkout/','Front\CheckoutController@checkout')->name('front.checkout');
+  Route::post('/cities/','Front\CheckoutController@cities')->name('front.cities');
   Route::get('/checkout/payment/{slug1}/{slug2}','Front\CheckoutController@loadpayment')->name('front.load.payment');
   Route::get('/order/track/{id}','Front\FrontendController@trackload')->name('front.track.search');
   Route::get('/checkout/payment/return', 'Front\PaymentController@payreturn')->name('payment.return');

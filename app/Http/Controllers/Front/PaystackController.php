@@ -101,6 +101,9 @@ class PaystackController extends Controller
         $order['pay_amount'] = round($request->total / $curr->value, 2);
         $order['method'] = $request->method;
         $order['shipping'] = $request->shipping;
+        $order['shipping_country'] = $request->shipping_country;
+        $order['shipping_city'] = $request->shipping_city;
+        $order['shipping_region'] = $request->shipping_region;
         $order['pickup_location'] = $request->pickup_location;
         $order['customer_email'] = $request->email;
         $order['customer_name'] = $request->name;
@@ -117,8 +120,6 @@ class PaystackController extends Controller
         $order['shipping_name'] = $request->shipping_name;
         $order['shipping_phone'] = $request->shipping_phone;
         $order['shipping_address'] = $request->shipping_address;
-        $order['shipping_country'] = $request->shipping_country;
-        $order['shipping_city'] = $request->shipping_city;
         $order['shipping_zip'] = $request->shipping_zip;
         $order['order_note'] = $request->order_notes;
         $order['coupon_code'] = $request->coupon_code;

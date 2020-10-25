@@ -40,6 +40,34 @@
     </li>
 
     <li>
+        <a href="#cities" class="accordion-toggle wave-effect" data-toggle="collapse" aria-expanded="false">
+            <i class="icofont-flag"></i>{{ __('Cities') }}
+        </a>
+        <ul class="collapse list-unstyled" id="cities" data-parent="#accordion">
+            <li>
+                <a href="{{ route('admin-city-create') }}"><span>{{ __('Add New City') }}</span></a>
+            </li>
+            <li>
+                <a href="{{ route('admin-city-index') }}"><span>{{ __('All Cities') }}</span></a>
+            </li>
+        </ul>
+    </li>
+
+    <li>
+        <a href="#regions" class="accordion-toggle wave-effect" data-toggle="collapse" aria-expanded="false">
+            <i class="icofont-flag"></i>{{ __('Regions') }}
+        </a>
+        <ul class="collapse list-unstyled" id="regions" data-parent="#accordion">
+            <li>
+                <a href="{{ route('admin-regions-create') }}"><span>{{ __('Add New Region') }}</span></a>
+            </li>
+            <li>
+                <a href="{{ route('admin-regions-index') }}"><span>{{ __('All Regions') }}</span></a>
+            </li>
+        </ul>
+    </li>
+
+    <li>
         <a href="#affiliateprod" class="accordion-toggle wave-effect" data-toggle="collapse" aria-expanded="false">
             <i class="icofont-cart"></i>{{ __('Affiliate Products') }}
         </a>

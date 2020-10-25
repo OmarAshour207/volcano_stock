@@ -24,6 +24,7 @@ class PaymentController extends Controller
 {
 
  public function store(Request $request){
+//     dd($request->all());
      if (!Session::has('cart')) {
         return redirect()->route('front.cart')->with('success',"You don't have any product to checkout.");
      }
@@ -137,7 +138,9 @@ class PaymentController extends Controller
                     $order['pickup_location'] = $request->pickup_location;
                     $order['customer_address'] = $request->address;
                     $order['customer_country'] = $request->customer_country;
-                    $order['customer_city'] = $request->city;
+                    $order['shipping_country'] = $request->shipping_country;
+                    $order['shipping_city'] = $request->shipping_city;
+                    $order['shipping_region'] = $request->shipping_region;
                     $order['customer_zip'] = $request->zip;
                     $order['shipping_email'] = $request->shipping_email;
                     $order['shipping_name'] = $request->shipping_name;

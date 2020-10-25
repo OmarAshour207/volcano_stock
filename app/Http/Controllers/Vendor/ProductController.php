@@ -553,6 +553,12 @@ if (!Product::where('product_code',$line[0])->exists()){
              $input['previous_price'] = ($input['previous_price'] / $sign->value);
          	 $input['user_id'] = Auth::user()->id;
 
+            // Length, Width, Height
+            $input['length'] = $request->length;
+            $input['width'] = $request->width;
+            $input['height'] = $request->height;
+            $input['weight'] = $request->weight;
+
            // store filtering attributes for physical product
            $attrArr = [];
            if (!empty($request->category_id)) {
@@ -927,6 +933,12 @@ if (!Product::where('product_code',$line[0])->exists()){
 
          $input['price'] = $input['price'] / $sign->value;
          $input['previous_price'] = $input['previous_price'] / $sign->value;
+
+        // Length, Width, Height
+        $input['length'] = $request->length;
+        $input['width'] = $request->width;
+        $input['height'] = $request->height;
+        $input['weight'] = $request->weight;
 
          // store filtering attributes for physical product
          $attrArr = [];

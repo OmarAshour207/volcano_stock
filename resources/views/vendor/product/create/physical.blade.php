@@ -456,6 +456,56 @@
 
 											</div>
 
+										  <div class="row">
+											  <div  class="col-lg-4">
+											  </div>
+											  <div  class="col-lg-7">
+												  <div class="product-size-details" id="size-section">
+													  <div class="size-area">
+														  <div  class="row">
+															  <div class="col-md-3 col-sm-6">
+																  <label>
+																	  {{ __('Weight') }} :
+																  </label>
+																  <span>
+																						{{ __('In Kilo Gram') }}
+																				  </span>
+																  <input type="number" name="weight" class="input-field" placeholder="{{ __('Weight') }}" value="1" min="1">
+															  </div>
+
+															  <div class="col-md-3 col-sm-6">
+																  <label>
+																	  {{ __('Length') }} :
+																  </label>
+																  <span>
+																						{{ __('In centimeter') }}
+																				  </span>
+																  <input type="number" name="length" class="input-field" placeholder="{{ __('Length') }}" value="1" min="1">
+															  </div>
+															  <div class="col-md-3 col-sm-6">
+																  <label>
+																	  {{ __('Width') }} :
+																  </label>
+																  <span>
+																						{{ __('In centimeter') }}
+																				  </span>
+																  <input type="number" name="width" class="input-field" placeholder="{{ __('Width') }}" value="1" min="1">
+															  </div>
+															  <div class="col-md-3 col-sm-6">
+																  <label>
+																	  {{ __('Height') }} :
+																  </label>
+																  <span>
+																						{{ __('In centimeter') }}
+																				  </span>
+																  <input type="number" name="height" class="input-field" placeholder="{{ __('Height') }}" value="1" min="1">
+															  </div>
+														  </div>
+													  </div>
+												  </div>
+											  </div>
+										  </div>
+
 
 												<div class="row">
 													<div class="col-lg-4">
