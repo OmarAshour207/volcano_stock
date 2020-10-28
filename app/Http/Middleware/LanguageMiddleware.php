@@ -20,9 +20,10 @@ class LanguageMiddleware
         if (session()->has('language')) {
             $lang = Language::where('id',session()->get('language'))->first();
             App::setLocale($lang->symbol);
-
-
+        } elseif (!session()->has('language')) {
+            App::setlocale('ar');
         }
+
         return $next($request);
     }
 }
