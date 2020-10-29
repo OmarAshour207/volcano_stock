@@ -219,6 +219,18 @@
 													</div>
 												</div>
 
+											  <div class="row">
+												  <div class="col-lg-4">
+													  <div class="left-area">
+														  <h4 class="heading">{{ __('Free Shipping') }}</h4>
+													  </div>
+												  </div>
+												  <div class="col-lg-7">
+													  <input type="checkbox" name="free_shipping" />
+												  </div>
+
+											  </div>
+
 												<div class="row">
 													<div class="col-lg-4">
 														<div class="left-area">

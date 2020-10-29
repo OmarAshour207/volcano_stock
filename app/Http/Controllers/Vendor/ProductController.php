@@ -579,6 +579,8 @@ if (!Product::where('sku',$line[0])->exists()){
             $input['width'] = $request->width;
             $input['height'] = $request->height;
             $input['weight'] = $request->weight;
+            // Free Shipping
+            $input['free_shipping'] = $request->free_shipping == 'on' ? 1 : 0;
 
            // store filtering attributes for physical product
            $attrArr = [];
@@ -617,6 +619,7 @@ if (!Product::where('sku',$line[0])->exists()){
                }
              }
            }
+
            if (!empty($request->childcategory_id)) {
              $childAttrs = Attribute::where('attributable_id', $request->childcategory_id)->where('attributable_type', 'App\Models\Childcategory')->get();
              if (!empty($childAttrs)) {
@@ -634,7 +637,6 @@ if (!Product::where('sku',$line[0])->exists()){
                }
              }
            }
-
 
 
            if (empty($attrArr)) {
@@ -740,8 +742,6 @@ if (!Product::where('sku',$line[0])->exists()){
     //*** POST Request
     public function update(Request $request, $id)
     {
-        dd($request->all());
-
         //--- Validation Section
         $rules = [
                'photo'      => 'mimes:jpeg,jpg,png,svg',
@@ -791,6 +791,8 @@ if (!Product::where('sku',$line[0])->exists()){
 
             // affilate
             $input['is_affilate'] = $request->is_affilate == 'on' ? 1 : 0;
+            // free shipping
+            $input['free_shipping'] = $request->free_shipping == 'on' ? 1 : 0;
 
             // Check Physical
             if($data->type == "Physical")
@@ -999,6 +1001,7 @@ if (!Product::where('sku',$line[0])->exists()){
              }
            }
          }
+
          if (!empty($request->childcategory_id)) {
            $childAttrs = Attribute::where('attributable_id', $request->childcategory_id)->where('attributable_type', 'App\Models\Childcategory')->get();
            if (!empty($childAttrs)) {

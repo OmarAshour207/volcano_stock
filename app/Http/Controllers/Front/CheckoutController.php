@@ -463,6 +463,7 @@ class CheckoutController extends Controller
         $order['shipping_address'] = $request->shipping_address;
         $order['shipping_country'] = $request->shipping_country;
         $order['shipping_city'] = $request->shipping_city;
+        $order['shipping_region'] = $request->shipping_region;
         $order['shipping_zip'] = $request->shipping_zip;
         $order['order_note'] = $request->order_notes;
         $order['coupon_code'] = $request->coupon_code;
@@ -561,7 +562,22 @@ class CheckoutController extends Controller
                 $vorder->user_id = $prod['item']['user_id'];
                 $notf[] = $prod['item']['user_id'];
                 $vorder->qty = $prod['qty'];
-                $vorder->price = $prod['price'] -  ($gs->fixed_commission + ($prod['item']['price']/100) * $discount_price);
+
+                $free_shipping_price = 0;
+                if ($prod['item']['free_shipping'] == 1) {
+                    $calculated_kilos = ($prod['item']['length'] * $prod['item']['width'] * $prod['item']['height']) / 3000;
+                    $kilos = $calculated_kilos > $prod['item']['weight'] ? $calculated_kilos : $prod['item']['weight'];
+
+                    $ship_city = $order['shipping_city'];
+                    $ship_region = $order['shipping_region'];
+                    $region_price = Region::where('name', 'like', "%$ship_region%")->whereHas('city', function ($query) use ($ship_city){
+                        $query->where('name', 'like', "%$ship_city%");
+                    })->first();
+
+                    $free_shipping_price = $kilos * $region_price->price * $prod['qty'];
+                }
+
+                $vorder->price = $prod['price'] -  ($gs->fixed_commission + ($prod['item']['price']/100) * $discount_price) - $free_shipping_price;
 
                 $vorder->order_number = $order->order_number;             
                 $vorder->save();
@@ -948,9 +964,11 @@ $validator = Validator::make($input, $rules, $messages);
 
         foreach ($products as $index => $product) {
             foreach ($product as $p) {
-                $calculated_kilos = ($p['item']->length * $p['item']->width * $p['item']->height)/3000;
-                $kilo = $calculated_kilos > $p['item']->weight ? $calculated_kilos : $p['item']->weight ;
-                $kilos += $kilo;
+                if ($p['item']->free_shipping == 0 || $p['item']->free_shipping == null) {
+                    $calculated_kilos = ($p['item']->length * $p['item']->width * $p['item']->height)/3000;
+                    $kilo = $calculated_kilos > $p['item']->weight ? $calculated_kilos : $p['item']->weight ;
+                    $kilos += $kilo;
+                }
             }
             break;
         }

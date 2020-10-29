@@ -10,6 +10,7 @@ use App\Models\Currency;
 use App\Models\Generalsetting;
 use App\Models\Notification;
 use App\Models\Product;
+use App\Models\Region;
 use App\Models\User;
 use App\Models\VendorOrder;
 use App\Models\UserNotification;
@@ -24,7 +25,6 @@ class PaymentController extends Controller
 {
 
  public function store(Request $request){
-//     dd($request->all());
      if (!Session::has('cart')) {
         return redirect()->route('front.cart')->with('success',"You don't have any product to checkout.");
      }
@@ -196,7 +196,7 @@ class PaymentController extends Controller
                 {
                             $product = Product::findOrFail($prod['item']['id']);
                             $product->stock =  $prod['stock'];
-                            $product->update();                
+                            $product->update();
                         }
                     }
         foreach($cart->items as $prod)
@@ -211,7 +211,7 @@ class PaymentController extends Controller
                 $temp[$prod['size_key']] = $x;
                 $temp1 = implode(',', $temp);
                 $product->size_qty =  $temp1;
-                $product->update();               
+                $product->update();
             }
         }
 
@@ -227,12 +227,12 @@ class PaymentController extends Controller
 
                 $product = Product::findOrFail($prod['item']['id']);
                 $product->stock =  $prod['stock'];
-                $product->update();  
+                $product->update();
                 if($product->stock <= 5)
                 {
                     $notification = new Notification;
                     $notification->product_id = $product->id;
-                    $notification->save();                    
+                    $notification->save();
                 }              
             }
         }
@@ -252,11 +252,24 @@ class PaymentController extends Controller
 
                 $vorder =  new VendorOrder;
                 $vorder->order_id = $order->id;
-
                 $vorder->user_id = $prod['item']['user_id'];
                 $notf[] = $prod['item']['user_id'];
                 $vorder->qty = $prod['qty'];
-                $vorder->price = $prod['price'] -  ($gs->fixed_commission + ($prod['item']['price'] / 100) * $discount_price);
+                $free_shipping_price = 0;
+                if ($prod['item']['free_shipping'] == 1) {
+                    $calculated_kilos = ($prod['item']['length'] * $prod['item']['width'] * $prod['item']['height']) / 3000;
+                    $kilos = $calculated_kilos > $prod['item']['weight'] ? $calculated_kilos : $prod['item']['weight'];
+
+                    $ship_city = $order['shipping_city'];
+                    $ship_region = $order['shipping_region'];
+                    $region_price = Region::where('name', 'like', "%$ship_region%")->whereHas('city', function ($query) use ($ship_city){
+                        $query->where('name', 'like', "%$ship_city%");
+                    })->first();
+
+                    $free_shipping_price = $kilos * $region_price->price * $prod['qty'];
+                }
+
+                $vorder->price = $prod['price'] -  ($gs->fixed_commission + ($prod['item']['price'] / 100) * $discount_price) - $free_shipping_price;
 
                 $vorder->order_number = $order->order_number;             
                 $vorder->save();
@@ -403,7 +416,8 @@ class PaymentController extends Controller
             imagesetpixel($image,rand()%200,rand()%50,$pixel);
         }
 
-       $font = 'assets/front/fonts/NotoSans-Bold.ttf';
+        $DS = DIRECTORY_SEPARATOR;
+        $font = public_path('assets'.$DS.'front'.$DS.'fonts'.$DS.'NotoSans-Bold.ttf');
         $allowed_letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
         $length = strlen($allowed_letters);
         $letter = $allowed_letters[rand(0, $length-1)];

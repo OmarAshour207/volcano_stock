@@ -187,18 +187,18 @@
 											<div class="row">
 												<div class="col-lg-6">
 													<input class="form-control ship_input" type="text" name="shipping_name"
-														id="shippingFull_name" placeholder="{{ $langg->lang152 }}">
+														id="shippingFull_name" placeholder="{{ $langg->lang152 }}" value="">
 														<input type="hidden" name="shipping_email" value="">
 												</div>
 												<div class="col-lg-6">
 													<input class="form-control ship_input" type="text" name="shipping_phone"
-														id="shipingPhone_number" placeholder="{{ $langg->lang153 }}">
+														id="shipingPhone_number" placeholder="{{ $langg->lang153 }}" value="">
 												</div>
 											</div>
 											<div class="row">
 												<div class="col-lg-6">
 													<input class="form-control ship_input" type="text" name="shipping_address"
-														id="shipping_address" placeholder="{{ $langg->lang155 }}">
+														id="shipping_address" placeholder="{{ $langg->lang155 }}" value="">
 												</div>
 
 												<div class="col-lg-6">
@@ -206,17 +206,17 @@
 														@include('includes.cities')
 													</select>
 												</div>
-												<input type="hidden" name="shipping_city" id="shipping_city">
+												<input type="hidden" name="shipping_city" id="shipping_city" value="">
 											</div>
 											<input type="hidden" name="shipping_country" value="Egypt">
 											<div class="row">
 												<div class="col-lg-6">
-													<select class="form-control" name="shipping_region" id="regions">
+													<select class="form-control" name="shipping_region" id="regions" value="">
 													</select>
 												</div>
 												<div class="col-lg-6">
 													<input class="form-control ship_input" type="text" name="shipping_zip"
-														id="shippingPostal_code" placeholder="{{ $langg->lang159 }}">
+														id="shippingPostal_code" placeholder="{{ $langg->lang159 }}" value="">
 												</div>
 
 											</div>
