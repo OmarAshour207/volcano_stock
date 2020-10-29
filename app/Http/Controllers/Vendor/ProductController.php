@@ -247,7 +247,8 @@ class ProductController extends Controller
             if($i != 1)
             {
 
-if (!Product::where('product_code',$line[0])->exists()){
+
+if (!Product::where('sku',$line[0])->exists()){
 
                 //--- Validation Section Ends
 
@@ -256,27 +257,43 @@ if (!Product::where('product_code',$line[0])->exists()){
                 $sign = Currency::where('is_default','=',1)->first();
 
                 $input['type'] = 'Physical';
-                $input['product_code'] = $line[0];
+                $input['user_id'] = $user->id;
+                $input['sku'] = $line[0];
+                $input['ar']['name'] = $line[1];
+                $input['en']['name'] = $line[2];
 
                 $input['category_id'] = "";
                 $input['subcategory_id'] = "";
                 $input['childcategory_id'] = "";
 
-                $mcat = Category::where(DB::raw('lower(name)'), strtolower($line[1]));
-                //$mcat = Category::where("name", $line[1]);
+//                $mcat = Category::whereTranslation(DB::raw('LOWER(name)'), strtolower($line[1]));
+                $mcat = DB::table('categories')
+                    ->select('categories.id', 'category_translations.name', 'category_translations.category_id')
+                    ->join('category_translations', 'category_translations.category_id', '=', 'categories.id')
+                    ->where(DB::raw('LOWER(category_translations.name)'), strtolower($line[3]));
 
                 if($mcat->exists()){
                     $input['category_id'] = $mcat->first()->id;
 
-                    if($line[2] != ""){
-                        $scat = Subcategory::where(DB::raw('lower(name)'), strtolower($line[2]));
+                    if($line[4] != ""){
+//                        $scat = Subcategory::where(DB::raw('lower(name)'), strtolower($line[2]));
+
+                        $scat = DB::table('subcategories')
+                            ->select('subcategories.id', 'subcategory_translations.name', 'subcategory_translations.subcategory_id')
+                            ->join('subcategory_translations', 'subcategory_translations.subcategory_id', '=', 'subcategories.id')
+                            ->where(DB::raw('LOWER(subcategory_translations.name)'), strtolower($line[4]));
 
                         if($scat->exists()) {
                             $input['subcategory_id'] = $scat->first()->id;
                         }
                     }
-                    if($line[3] != ""){
-                        $chcat = Childcategory::where(DB::raw('lower(name)'), strtolower($line[3]));
+                    if($line[5] != ""){
+//                        $chcat = Childcategory::where(DB::raw('lower(name)'), strtolower($line[3]));
+
+                        $chcat = DB::table('childcategories')
+                            ->select('childcategories.id', 'childcategory_translations.name', 'childcategory_translations.childcategory_id')
+                            ->join('childcategory_translations', 'childcategory_translations.childcategory_id', '=', 'childcategories.id')
+                            ->where(DB::raw('LOWER(childcategory_translations.name)'), strtolower($line[5]));
 
                         if($chcat->exists()) {
                             $input['childcategory_id'] = $chcat->first()->id;
@@ -285,26 +302,30 @@ if (!Product::where('product_code',$line[0])->exists()){
 
 
 
-                $input['photo'] = $line[5];
-                $input['name'] = $line[4];
-                $input['details'] = $line[6];
+
+                $input['photo'] = $line[6];
+                $input['details'] = $line[7];
 //                $input['category_id'] = $request->category_id;
 //                $input['subcategory_id'] = $request->subcategory_id;
 //                $input['childcategory_id'] = $request->childcategory_id;
-                $input['color'] = $line[13];
-                $input['price'] = $line[7];
-                $input['previous_price'] = $line[8];
-                $input['stock'] = $line[9];
-                $input['size'] = $line[10];
-                $input['size_qty'] = $line[11];
-                $input['size_price'] = $line[12];
-                $input['youtube'] = $line[15];
-                $input['policy'] = $line[16];
-                $input['meta_tag'] = $line[17];
-                $input['meta_description'] = $line[18];
-                $input['tags'] = $line[14];
-                $input['product_type'] = $line[19];
-                $input['affiliate_link'] = $line[20];
+                $input['price'] = $line[8];
+                $input['previous_price'] = $line[9];
+                $input['stock'] = $line[10];
+                $input['size'] = $line[11];
+                $input['size_qty'] = $line[12];
+                $input['size_price'] = $line[13];
+                $input['color'] = $line[14];
+                $input['tags'] = $line[15];
+                $input['youtube'] = $line[16];
+                $input['policy'] = $line[17];
+                $input['meta_tag'] = $line[18];
+                $input['meta_description'] = $line[19];
+                $input['product_type'] = $line[20];
+                $input['affiliate_link'] = $line[21];
+                $input['length'] = $line[22];
+                $input['width'] = $line[23];
+                $input['height'] = $line[24];
+                $input['weight'] = $line[25];
 
 
 
@@ -321,7 +342,7 @@ if (!Product::where('product_code',$line[0])->exists()){
                 // Set Thumbnail
 
 
-                $img = Image::make($line[5])->resize(285, 285);
+                $img = Image::make($line[6])->resize(285, 285);
                 $thumbnail = time().str_random(8).'.jpg';
                 $img->save(public_path().'/assets/images/thumbnails/'.$thumbnail);
                 $prod->thumbnail  = $thumbnail;
@@ -719,6 +740,7 @@ if (!Product::where('product_code',$line[0])->exists()){
     //*** POST Request
     public function update(Request $request, $id)
     {
+        dd($request->all());
 
         //--- Validation Section
         $rules = [
