@@ -61,6 +61,7 @@ class CartController extends Controller
     {
         $prod = Product::where('id','=',$id)->first(['id','category_id','user_id','slug','name','photo', 'free_shipping', 'size','size_qty','size_price','color','price','stock','type','file','link','license','license_qty','measure','whole_sell_qty','whole_sell_discount','attributes', 'length', 'width', 'height', 'weight']);
 
+        dd($prod);
         // Set Attrubutes
 
         $keys = '';
@@ -198,6 +199,7 @@ class CartController extends Controller
         $prod = Product::where('id','=',$id)->first(['id','category_id','user_id','slug','name','photo','size','size_qty','size_price','color','price','stock','type','file','link','license','license_qty','measure','whole_sell_qty','whole_sell_discount','free_shipping', 'attributes', 'length', 'width', 'height', 'weight']);
         // Set Attrubutes
 
+        dd($prod);
         $keys = '';
         $values = '';
         if(!empty($prod->license_qty))
@@ -351,7 +353,7 @@ class CartController extends Controller
         }
 
         $size_price = ($size_price / $curr->value);
-        $prod = Product::where('id','=',$id)->first(['id','category_id','user_id','slug','name','photo','size','size_qty','size_price','color','price','stock','type','file','link','license','license_qty','measure','whole_sell_qty','whole_sell_discount','attributes']);
+        $prod = Product::where('id','=',$id)->first(['id','category_id','user_id','slug','name','photo','size','size_qty','size_price','color','price','stock','type','file','link','license','license_qty','measure','whole_sell_qty','whole_sell_discount','attributes', 'free_shipping', 'length', 'width', 'height', 'weight']);
 
 
         if($prod->user_id != 0){
@@ -470,7 +472,7 @@ class CartController extends Controller
 
 
         $size_price = ($size_price / $curr->value);
-        $prod = Product::where('id','=',$id)->first(['id','category_id','user_id','slug','name','photo','size','size_qty','size_price','color','price','stock','type','file','link','license','license_qty','measure','whole_sell_qty','whole_sell_discount','attributes']);
+        $prod = Product::where('id','=',$id)->first(['id','category_id','user_id','slug','name','photo','size','size_qty','size_price','color','price','stock','type','file','link','license','license_qty','measure','whole_sell_qty','whole_sell_discount','attributes', 'free_shipping', 'length', 'width', 'height', 'weight']);
 
 
         if($prod->user_id != 0){

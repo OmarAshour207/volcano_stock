@@ -47,7 +47,6 @@ class CheckoutController extends Controller
 
     public function checkout()
     {
-
         $this->code_image();
         if (!Session::has('cart')) {
             return redirect()->route('front.cart')->with('success',"You don't have any product to checkout.");
@@ -966,7 +965,7 @@ $validator = Validator::make($input, $rules, $messages);
             foreach ($product as $p) {
                 if ($p['item']->free_shipping == 0 || $p['item']->free_shipping == null) {
                     $calculated_kilos = ($p['item']->length * $p['item']->width * $p['item']->height)/3000;
-                    $kilo = $calculated_kilos > $p['item']->weight ? $calculated_kilos : $p['item']->weight ;
+                    $kilo = $calculated_kilos > $p['item']->weight ? ($calculated_kilos * $p['qty']) : ($p['item']->weight * $p['qty']);
                     $kilos += $kilo;
                 }
             }
