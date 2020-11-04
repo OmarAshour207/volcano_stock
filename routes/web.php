@@ -1100,6 +1100,7 @@ Route::prefix('vendor')->group(function() {
 
   //------------ ADMIN ORDER SECTION ------------
   Route::get('/orders', 'Vendor\OrderController@index')->name('vendor-order-index');
+  Route::get('/orders/declined', 'Vendor\OrderController@declined')->name('vendor-order-declined');
   Route::get('/order/{id}/show', 'Vendor\OrderController@show')->name('vendor-order-show');
   Route::get('/order/{id}/invoice', 'Vendor\OrderController@invoice')->name('vendor-order-invoice');
   Route::get('/order/{id}/print', 'Vendor\OrderController@printpage')->name('vendor-order-print');

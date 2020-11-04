@@ -140,8 +140,8 @@
                                 @endphp
                                 @for($i = 0; $i < count($sizes);$i++)
                                     <div class="form-check  ml-0 pl-0">
-                                        <input name="inches" class="form-check-input attribute-input" type="checkbox" id="inches" value="{{ $sizes[$i] }}">
-                                        <label class="form-check-label" for="inches">{{ $sizes[$i] }}</label>
+                                        <input name="inches" class="form-check-input attribute-input" type="checkbox" id="inches-{{ $sizes[$i] }}" value="{{ $sizes[$i] }}">
+                                        <label class="form-check-label" for="inches-{{ $sizes[$i] }}">{{ $sizes[$i] }}</label>
                                     </div>
                                 @endfor
                             @endif

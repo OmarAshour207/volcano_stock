@@ -130,7 +130,7 @@
 {{-- ORDER MODAL ENDS --}}
 
 
-@endsection    
+@endsection
 
 @section('scripts')
 
@@ -148,9 +148,9 @@ $('.vendor-btn').on('change',function(){
         var table = $('#geniustable').DataTable({
                ordering: false
            });
-                                                                
+
     </script>
 
 {{-- DATA TABLE --}}
-    
-@endsection   
+
+@endsection

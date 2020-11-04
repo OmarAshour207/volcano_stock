@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Auth;
 use App\Models\Order;
 use App\Models\VendorOrder;
+use DataTables;
 
 class OrderController extends Controller
 {
@@ -41,7 +42,18 @@ class OrderController extends Controller
         return response()->json($msg);
     }
 
+    public function declined()
+    {
+        $user = Auth::user();
+        $orders = VendorOrder::where('user_id', '=', $user->id)
+                ->where('status', '=', 'declined')
+                ->orderBy('id','desc')
+                ->get()
+                ->groupBy('order_number');
 
+
+        return view('vendor.order.declined', compact('user', 'orders'));
+    }
 
     public function invoice($slug)
     {

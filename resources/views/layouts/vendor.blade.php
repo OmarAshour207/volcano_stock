@@ -135,6 +135,9 @@
                                    	<li>
                                     	<a href="{{route('vendor-order-index')}}"> {{ $langg->lang443 }}</a>
                                 	</li>
+									<li>
+										<a href="{{route('vendor-order-declined')}}"> {{ __('Declined Orders') }}</a>
+									</li>
 								</ul>
 							</li>
 
