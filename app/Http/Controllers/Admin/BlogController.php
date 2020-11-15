@@ -20,7 +20,7 @@ class BlogController extends Controller
     //*** JSON Request
     public function datatables()
     {
-         $datas = Blog::orderBy('id','desc')->get();
+         $datas = Blog::orderBy('id','desc')->get()->each->setAppends(['translate_value']);
          //--- Integrating This Collection Into Datatables
          return Datatables::of($datas)
                             ->editColumn('photo', function(Blog $data) {

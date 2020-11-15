@@ -55,7 +55,9 @@ td.dataTables_empty {
 													<thead>
 														<tr>
 									                        <th>{{ $langg->lang500 }}</th>
-									                        <th width="200px">{{ $langg->lang501 }}</th>
+															@foreach($languages as $language)
+																<th width="200px">{{ $langg->lang501 . ' ' . $language}}</th>
+															@endforeach
 									                        <th>{{ $langg->lang502 }}</th>
 														</tr>
 													</thead>
@@ -145,7 +147,9 @@ td.dataTables_empty {
                ajax: '{{ route('vendor-service-datatables') }}',
                columns: [
                         { data: 'photo', name: 'photo' , searchable: false, orderable: false},
-                        { data: 'title', name: 'title' },
+					   @foreach($languages as $language)
+				   			{ data: 'translate_value.{{$language}}.title', name: 'translate_value'},
+					   @endforeach
             			{ data: 'action', searchable: false, orderable: false }
 
                      ],

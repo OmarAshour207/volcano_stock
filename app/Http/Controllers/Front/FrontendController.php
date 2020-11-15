@@ -11,6 +11,7 @@ use App\Models\Generalsetting;
 use App\Models\Language;
 use App\Models\Order;
 use App\Models\Product;
+use App\Models\Service;
 use App\Models\Subscriber;
 use App\Models\User;
 use Carbon\Carbon;
@@ -147,7 +148,8 @@ class FrontendController extends Controller
 
     public function extraIndex()
     {
-        $services = DB::table('services')->where('user_id','=',0)->get();
+//        $services = DB::table('services')->where('user_id','=',0)->get()->each->setAppends(['translate_value']);
+        $services = Service::withTranslation()->where('user_id', '=', 0)->get();
         $bottom_small_banners = DB::table('banners')->where('type','=','BottomSmall')->get();
         $large_banners = DB::table('banners')->where('type','=','Large')->get();
         $reviews =  DB::table('reviews')->get();

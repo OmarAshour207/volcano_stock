@@ -33,7 +33,9 @@
 													<thead>
 														<tr>
 									                        <th>{{ __('Featured Image') }}</th>
-									                        <th width="40%">{{ __('Post Title') }}</th>
+															@foreach($languages as $language)
+									                        	<th width="40%">{{ __('Post Title') .'-'. $language }}</th>
+															@endforeach
 									                        <th>{{ __('Views') }}</th>
 									                        <th>{{ __('Options') }}</th>
 														</tr>
@@ -126,7 +128,9 @@
                ajax: '{{ route('admin-blog-datatables') }}',
                columns: [
                         { data: 'photo', name: 'photo' , searchable: false, orderable: false},
-                        { data: 'title', name: 'title' },
+					   @foreach($languages as $language)
+                        { data: 'translate_value.{{ $language }}.title', name: 'translate_value' },
+					   @endforeach
                         { data: 'views', name: 'views' },
             			{ data: 'action', searchable: false, orderable: false }
 

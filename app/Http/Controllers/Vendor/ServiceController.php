@@ -39,7 +39,7 @@ class ServiceController extends Controller
     public function datatables()
     {
          $user = Auth::user();
-         $datas =  $user->services()->orderBy('id','desc')->get();
+         $datas =  $user->services()->orderBy('id','desc')->get()->each->setAppends(['translate_value']);
          //--- Integrating This Collection Into Datatables
          return Datatables::of($datas)
                             ->editColumn('photo', function(Service $data) {

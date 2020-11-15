@@ -417,6 +417,9 @@
 													</div>
 													<div class="info">
 														<div class="details">
+															@php
+																$language = session()->get('language');
+															@endphp
 															<h4 class="title">{{ $service->title }}</h4>
 															<p class="text">
 																{!! $service->details !!}

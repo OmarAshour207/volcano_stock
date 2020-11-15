@@ -19,7 +19,7 @@ class PageController extends Controller
     //*** JSON Request
     public function datatables()
     {
-         $datas = Page::orderBy('id','desc')->get();
+         $datas = Page::orderBy('id','desc')->get()->each->setAppends(['translate_value']);
          //--- Integrating This Collection Into Datatables
          return Datatables::of($datas)
                             ->addColumn('header', function(Page $data) {

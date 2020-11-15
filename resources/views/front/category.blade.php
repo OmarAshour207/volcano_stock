@@ -11,17 +11,17 @@
                </li>
                @if (!empty($cat))
                <li>
-                  <a href="{{route('front.category', $cat->slug)}}">{{ $cat->slug }}</a>
+                  <a href="{{route('front.category', $cat->slug)}}">{{ $cat->name }}</a>
                </li>
                @endif
                @if (!empty($subcat))
                <li>
-                  <a href="{{route('front.category', [$cat->slug, $subcat->slug])}}">{{ $subcat->slug }}</a>
+                  <a href="{{route('front.category', [$cat->slug, $subcat->slug])}}">{{ $subcat->name }}</a>
                </li>
                @endif
                @if (!empty($childcat))
                <li>
-                  <a href="{{route('front.category', [$cat->slug, $subcat->slug, $childcat->slug])}}">{{ $childcat->slug }}</a>
+                  <a href="{{route('front.category', [$cat->slug, $subcat->slug, $childcat->slug])}}">{{ $childcat->name }}</a>
                </li>
                @endif
                @if (empty($childcat) && empty($subcat) && empty($cat))
