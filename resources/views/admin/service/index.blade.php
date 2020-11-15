@@ -47,8 +47,12 @@
 													<thead>
 														<tr>
 									                        <th>{{ __('Featured Image') }}</th>
-									                        <th width="30%">{{ __('Title') }}</th>
-									                        <th width="40%">{{ __('Details') }}</th>
+															@foreach ($languages as $language)
+																<th width="20%">{{ __("Title-$language") }}</th>
+															@endforeach
+															@foreach ($languages as $language)
+																<th width="20%">{{ __("Details-$language") }}</th>
+															@endforeach
 									                        <th>{{ __('Options') }}</th>
 														</tr>
 													</thead>
@@ -140,8 +144,12 @@
                ajax: '{{ route('admin-service-datatables') }}',
                columns: [
                         { data: 'photo', name: 'photo' , searchable: false, orderable: false},
-                        { data: 'title', name: 'title' },
-                        { data: 'details', name: 'details' },
+					   @foreach($languages as $language)
+						   { data: 'translate_value.{{$language}}.title', name: 'translate_value'},
+					   @endforeach
+					   @foreach($languages as $language)
+						   { data: 'translate_value.{{$language}}.details', name: 'translate_value'},
+					   @endforeach
             			{ data: 'action', searchable: false, orderable: false }
 
                      ],

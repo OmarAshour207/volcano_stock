@@ -390,7 +390,7 @@
 							@if($gs->is_faq == 1)
 							<li><a href="{{ route('front.faq') }}">{{ $langg->lang19 }}</a></li>
 							@endif
-							@foreach(DB::table('pages')->where('header','=',1)->get() as $data)
+							@foreach(\App\Models\Page::withTranslation()->where('header','=',1)->get() as $data)
 								<li><a href="{{ route('front.page',$data->slug) }}">{{ $data->title }}</a></li>
 							@endforeach
 							@if($gs->is_contact == 1)
@@ -485,7 +485,7 @@
 								</a>
 							</li>
 
-							@foreach(DB::table('pages')->where('footer','=',1)->get() as $data)
+							@foreach(\App\Models\Page::withTranslation()->where('footer','=',1)->get() as $data)
 							<li>
 								<a href="{{ route('front.page',$data->slug) }}">
 									<i class="fas fa-angle-double-right"></i>{{ $data->title }}
@@ -507,7 +507,7 @@
 							{{ $langg->lang24 }}
 						</h4>
 						<ul class="post-list">
-							@foreach (App\Models\Blog::orderBy('created_at', 'desc')->limit(3)->get() as $blog)
+							@foreach (App\Models\Blog::withTranslation()->orderBy('created_at', 'desc')->limit(3)->get() as $blog)
 							<li>
 								<div class="post">
 								  <div class="post-img">

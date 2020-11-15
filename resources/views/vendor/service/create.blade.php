@@ -13,17 +13,18 @@
                       <form id="geniusformdata" action="{{route('vendor-service-create')}}" method="POST" enctype="multipart/form-data">
                         {{csrf_field()}}
 
-                        <div class="row">
-                          <div class="col-lg-4">
-                            <div class="left-area">
-                                <h4 class="heading">{{ $langg->lang510 }} *</h4>
-                                <p class="sub-heading">{{ $langg->lang517 }}</p>
+                        @foreach($languages as $language)
+                          <div class="row">
+                            <div class="col-lg-4">
+                              <div class="left-area">
+                                  <h4 class="heading">{{ $langg->lang510  . ' ' . $language }} *</h4>
+                              </div>
+                            </div>
+                            <div class="col-lg-7">
+                              <input type="text" class="input-field" name="{{$language}}[title]" placeholder="{{ $langg->lang510 }}" required="" value="">
                             </div>
                           </div>
-                          <div class="col-lg-7">
-                            <input type="text" class="input-field" name="title" placeholder="{{ $langg->lang510 }}" required="" value="">
-                          </div>
-                        </div>
+                        @endforeach
 
                         <div class="row">
                           <div class="col-lg-4">
@@ -43,19 +44,21 @@
                           </div>
                         </div>
 
-                        <div class="row">
-                          <div class="col-lg-4">
-                            <div class="left-area">
-                              <h4 class="heading">
-                                  {{ $langg->lang514 }} *
-                                  <p class="sub-heading">{{ $langg->lang517 }}</p>
-                              </h4>
+
+                        @foreach($languages as $language)
+                          <div class="row">
+                            <div class="col-lg-4">
+                              <div class="left-area">
+                                <h4 class="heading">
+                                  {{ $langg->lang514 . ' ' . $language  }} *
+                                </h4>
+                              </div>
+                            </div>
+                            <div class="col-lg-7">
+                              <textarea  class="input-field" name="{{$language}}[details]" placeholder="{{ $langg->lang514 . ' ' . $language  }} *"></textarea>
                             </div>
                           </div>
-                          <div class="col-lg-7">
-                              <textarea class="input-field" name="details" placeholder="{{ $langg->lang514 }}"></textarea> 
-                          </div>
-                        </div>
+                        @endforeach
 
                         <div class="row">
                           <div class="col-lg-4">

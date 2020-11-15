@@ -13,17 +13,18 @@
                       <form id="geniusformdata" action="{{route('admin-page-update',$data->id)}}" method="POST" enctype="multipart/form-data">
                         {{csrf_field()}}
 
-                        <div class="row">
-                          <div class="col-lg-4">
-                            <div class="left-area">
-                                <h4 class="heading">{{ __('Title') }} *</h4>
-                                <p class="sub-heading">{{ __('(In Any Language)') }}</p>
+                        @foreach($languages as $language)
+                          <div class="row">
+                            <div class="col-lg-4">
+                              <div class="left-area">
+                                  <h4 class="heading">{{ __('Title') . ' ' . $language }} *</h4>
+                              </div>
+                            </div>
+                            <div class="col-lg-7">
+                              <input type="text" class="input-field" name="{{$language}}[title]" placeholder="{{ __('Title') }}" value="{{$data->translate_value[$language]['title'] ?? ''}}" required="">
                             </div>
                           </div>
-                          <div class="col-lg-7">
-                            <input type="text" class="input-field" name="title" placeholder="{{ __('Title') }}" value="{{$data->title}}" required="">
-                          </div>
-                        </div>
+                        @endforeach
 
                         <div class="row">
                           <div class="col-lg-4">

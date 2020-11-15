@@ -32,7 +32,9 @@
 												<table id="geniustable" class="table table-hover dt-responsive" cellspacing="0" width="100%">
 													<thead>
 														<tr>
-									                        <th width="50%">{{ __('Page Title') }}</th>
+															@foreach($languages as $language)
+																<th width="50%">{{ __("Page Title-$language") }}</th>
+															@endforeach
 									                        <th>{{ __('Header') }}</th>
 									                        <th>{{ __('Footer') }}</th>
 									                        <th>{{ __('Options') }}</th>
@@ -122,7 +124,9 @@
                serverSide: true,
                ajax: '{{ route('admin-page-datatables') }}',
                columns: [
-                        { data: 'title', name: 'title' },
+               			@foreach($languages as $language)
+				   			{ data: 'translate_value.{{$language}}.title', name: 'translate_value' },
+					   @endforeach
             			{ data: 'header', searchable: false, orderable: false },
             			{ data: 'footer', searchable: false, orderable: false },
             			{ data: 'action', searchable: false, orderable: false }

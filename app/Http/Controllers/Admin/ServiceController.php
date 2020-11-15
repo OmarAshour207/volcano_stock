@@ -19,7 +19,7 @@ class ServiceController extends Controller
     //*** JSON Request
     public function datatables()
     {
-         $datas = Service::where('user_id','=',0)->orderBy('id','desc')->get();
+         $datas = Service::where('user_id','=',0)->orderBy('id','desc')->get()->each->setAppends(['translate_value']);
          //--- Integrating This Collection Into Datatables
          return Datatables::of($datas)
                             ->editColumn('photo', function(Service $data) {
